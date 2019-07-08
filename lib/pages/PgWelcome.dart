@@ -56,7 +56,7 @@ class _PgWelcomeState extends BaseState<PgWelcome> {
     jPush.applyPushAuthority(
         new NotificationSettingsIOS(sound: true, alert: true, badge: true));
     jPush.setup(
-        appKey: "6a30d2dbe744a2281cb285ce",
+        appKey: "d5de47499dbd50db644a2431",
         channel: "developer-default",
         debug: true,
         production: true);

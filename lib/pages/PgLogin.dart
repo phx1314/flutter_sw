@@ -199,26 +199,26 @@ class PgLoginState extends BaseState<PgLogin> {
           Help.mModelUser.SessionID +
           "; " +
           "AgentID=; expires=Fri, 20-May-1983 16:00:00 GMT; path=/";
-      if (Help.mModelUser.UserInfo.EmpName != '戴飞') {
-        if (Help.mModelUser.UserInfo.EmpMEID == null ||
-            Help.mModelUser.UserInfo.EmpMEID == '') {
-          loadUrl(
-              "Core/user/UpdateEmpMEID?a=" +
-                  Help.mModelUser.name +
-                  "&p=" +
-                  md5
-                      .convert(utf8.encode(Help.mModelUser.password))
-                      .toString() +
-                  "&EmpMEID=" +
-                  udid,
-              null);
-        } else {
-          if (Help.mModelUser.UserInfo.EmpMEID != udid) {
-            Help.goWhere(context, PgSjbd());
-            return;
-          }
-        }
-      }
+//      if (Help.mModelUser.UserInfo.EmpName != '戴飞') {
+//        if (Help.mModelUser.UserInfo.EmpMEID == null ||
+//            Help.mModelUser.UserInfo.EmpMEID == '') {
+//          loadUrl(
+//              "Core/user/UpdateEmpMEID?a=" +
+//                  Help.mModelUser.name +
+//                  "&p=" +
+//                  md5
+//                      .convert(utf8.encode(Help.mModelUser.password))
+//                      .toString() +
+//                  "&EmpMEID=" +
+//                  udid,
+//              null);
+//        } else {
+//          if (Help.mModelUser.UserInfo.EmpMEID != udid) {
+//            Help.goWhere(context, PgSjbd());
+//            return;
+//          }
+//        }
+//      }
       await Help.save("mModelUser", json.encode(Help.mModelUser.toJson()));
       setPushTag(JPush());
     }
