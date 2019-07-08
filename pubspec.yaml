@@ -1,0 +1,75 @@
+name: flutter_std
+description: A new Flutter application.
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 6.1.6
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^0.1.2
+  crypto: ^2.0.6
+  banner_view: ^1.1.2
+  lpinyin: ^1.0.6
+  dio: ^2.0.20
+  flutter_cupertino_date_picker: ^0.3.0
+  fluttertoast: ^3.0.1
+  event_bus:  ^1.0.3
+  connectivity: ^0.3.2
+  barcode_scan: ^1.0.0
+  jpush_flutter: ^0.0.11
+  image_picker: ^0.6.0+1
+  url_launcher: ^5.0.2
+  cached_network_image: ^0.7.0
+  open_file: ^2.0.3
+  flutter_slidable: ^0.5.3
+  webview_flutter: ^0.3.6
+  flutter_html_textview: ^0.2.5
+  flutter_sound: ^1.4.0
+  common_utils: ^1.1.1
+  flustars: ^0.2.5
+  udid: ^0.0.2
+  intro_slider: ^1.2.1
+  keyboard_visibility: ^0.5.6
+  package_info: ^0.4.0+2
+  table_calendar: ^1.2.1
+  flutter_luban: ^0.1.7+1
+#  geolocator: ^5.0.0
+#  fluttery_audio: ^0.0.4
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_refresh: ^0.0.2
+  bottom_tab_bar:
+      git: https://github.com/LiuC520/flutter_bottom_tab_bar.git
+  flutter_webview_plugin:
+      git: https://github.com/phx1314/flutter_webview_plugin-0.3.5.git
+#  amap_base:
+#      git: https://github.com/phx1314/ama_plugin.git
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+      - static/images/
+
+  fonts:
+        - family: webFont
+          fonts:
+            - asset: static/font/fontawesome-webfont.ttf
