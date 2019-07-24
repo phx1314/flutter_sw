@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_std/pages/PgHome.dart';
 import 'package:flutter_std/pages/PgLogin.dart';
-import 'package:flutter_std/pages/PgWelcome.dart';
 import 'package:flutter_std/utils/BaseState.dart';
 import 'package:flutter_std/utils/Code.dart';
 import 'package:flutter_std/utils/HttpErrorEvent.dart';
@@ -12,12 +11,15 @@ import '../Help.dart';
 import 'PgYinDao.dart';
 
 class PgMain extends StatefulWidget {
+  int type;
+
+  PgMain(this.type);
+
   @override
   PgMainState createState() => new PgMainState();
 }
 
-class PgMainState extends BaseState<PgMain>{
-
+class PgMainState extends BaseState<PgMain> {
   @override
   void disMsg(int what, data) {
     switch (what) {
@@ -26,8 +28,6 @@ class PgMainState extends BaseState<PgMain>{
         break;
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,9 @@ class PgMainState extends BaseState<PgMain>{
             );
           },
         },
-        home: PgWelcome());
+        home: widget.type == 0
+            ? PgYinDao()
+            : widget.type == 1 ? PgLogin() : PgHome());
   }
 }
 

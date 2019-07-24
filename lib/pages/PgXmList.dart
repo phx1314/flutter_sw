@@ -15,7 +15,9 @@ import 'package:flutter_std/utils/PullListView.dart';
 import 'PgSearch.dart';
 
 class PgXmList extends StatefulWidget {
-  PgXmList();
+  String MenuNameEng;
+
+  PgXmList(this.MenuNameEng);
 
   @override
   PgXmListState createState() => new PgXmListState();
@@ -33,6 +35,12 @@ class PgXmListState extends BaseState<PgXmList> {
         ModelXm mModelFlowList = ModelXm.fromJson(res.data);
         List data = new List();
         mModelFlowList.rows.forEach((f) {
+//          if (widget.MenuNameEng != 'ContractInfo') {
+//            f.CirculationInfo = '';
+//          } else {
+//            f.ProjMarketName = '';
+//            f.ProjNumber = '';
+//          }
           data.add(ItemHt(f));
         });
         return data;

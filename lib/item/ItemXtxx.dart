@@ -17,7 +17,7 @@ import 'package:lpinyin/lpinyin.dart';
 class ItemXtxx extends StatefulWidget {
   RowsListBean item;
 
-  ItemXtxx(this.item );
+  ItemXtxx(this.item);
 
   @override
   ItemXtxxState createState() => new ItemXtxxState();
@@ -78,9 +78,7 @@ class ItemXtxxState extends BaseState<ItemXtxx> {
                           ),
                         ),
                         Text(
-                          widget.item.MessDate.contains('T')
-                              ? widget.item.MessDate.split('T')[0]
-                              : widget.item.MessDate,
+                          Help.matchDate(widget.item.MessDate),
                           style: Style.text_style_13_gray,
                         ),
                       ],

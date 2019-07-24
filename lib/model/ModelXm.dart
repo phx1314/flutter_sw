@@ -24,27 +24,33 @@ class RowsListBean {
   var ProjName;
 
   var Id;
+  var ProjNumber;
+  var ProjMarketName;
   String FlowSummary;
 
-
-  RowsListBean(
-      {
-      this.ProjName,
-      this.Id,
-      this.FlowSummary,
-       });
+  RowsListBean({
+    this.ProjName,
+    this.Id,
+    this.FlowSummary,
+    this.ProjNumber,
+    this.ProjMarketName,
+  });
 
   RowsListBean.fromJson(Map<String, dynamic> json) {
     this.ProjName = json['ProjName'];
     this.FlowSummary ??= json['_summary'];
     this.FlowSummary ??= json['FlowSummary'];
     this.Id = json['Id'];
+    this.ProjNumber = json['ProjNumber'];
+    this.ProjMarketName = json['ProjMarketName'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['ProjName'] = this.ProjName;
     data['Id'] = this.Id;
+    data['ProjNumber'] = this.ProjNumber;
+    data['ProjMarketName'] = this.ProjMarketName;
     return data;
   }
 }

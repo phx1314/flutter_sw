@@ -23,23 +23,6 @@ class PgFxState extends BaseState<PgFx> {
           title: Text(
             '发现',
           ),
-//          TabBar(
-
-//            tabs: [
-//              Tab(
-//                text: "表单",
-//              ),
-//              Tab(
-//                text: "日程",
-//              )
-//            ],
-//            isScrollable: true,
-//            labelColor: Colors.white,
-//            unselectedLabelColor: Colors.white,
-//            unselectedLabelStyle: new TextStyle(fontSize: 16.0),
-//            labelStyle:
-//                new TextStyle(fontSize: 17.0, fontWeight: FontWeight.bold),
-//          ),
           leading: Builder(
             builder: (context) => IconButton(
                   icon: Icon(Icons.crop_free,
@@ -59,10 +42,22 @@ class PgFxState extends BaseState<PgFx> {
                 List<SearchListBean> search = List();
                 SearchListBean s1 = new SearchListBean();
                 s1.type = "text";
-                s1.text = "请输入标题、流程名称、节点名称";
+                s1.text = "请输入标题、流程名称";
                 s1.sqlstring =
-                    '{"isGroup":false,"list":[{"Key":"NewsTitle,NewsContent","Contract":"like","Value":"#{value}"}]}';
+                '{"isGroup":false,"list":[{"Key":"keytext","Contract":"like","Value":"#{value}"}]}';
+                SearchListBean s2 = new SearchListBean();
+                s2.type = "time_ymd";
+                s2.text = "请选择开始时间";
+                s2.sqlstring =
+                '{"isGroup":false,"list":[{"Key":"FlowTimeS","Contract":">=","filedType":"Date","Value":"#{value}"}]}';
+                SearchListBean s3 = new SearchListBean();
+                s3.type = "time_ymd";
+                s3.text = "请选择结束时间";
+                s3.sqlstring =
+                '{"isGroup":false,"list":[{"Key":"FlowTimeE","Contract":"<=","filedType":"Date","Value":"#{value}"}]}';
                 search.add(s1);
+                search.add(s2);
+                search.add(s3);
                 Help.goWhere(context, PgSearch('PgBd', search));
               },
             ),

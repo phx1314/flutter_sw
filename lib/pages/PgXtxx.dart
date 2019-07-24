@@ -57,6 +57,8 @@ class PgXtxxState extends BaseState<PgXtxx> {
         },
         child: Scaffold(
           appBar: new AppBar(
+            elevation: 0.5,
+            backgroundColor: Colors.white,
             title: InkWell(
                 onTap: () {
                   isShow = !isShow;
@@ -67,16 +69,18 @@ class PgXtxxState extends BaseState<PgXtxx> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(data[status]),
+                      Text(data[status],style: Style.text_style_16_black,),
+
                       Icon(isShow
                           ? Icons.keyboard_arrow_up
-                          : Icons.keyboard_arrow_down)
+                          : Icons.keyboard_arrow_down,color:  Colors.black,)
                     ],
                   ),
                 )),
             centerTitle: true,
           ),
           body: Container(
+            color:  Colors.white,
             child: Stack(
               children: <Widget>[
                 mPullListView,

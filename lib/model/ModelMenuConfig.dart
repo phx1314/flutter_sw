@@ -69,6 +69,7 @@ class GridBean {
   List<String> addUrl;
   var delUrl;
   List<String> editUrl;
+  List<String> saveUrl;
   List<String> url;
   List queryParams;
 
@@ -79,6 +80,7 @@ class GridBean {
       this.addUrl,
       this.delUrl,
       this.editUrl,
+      this.saveUrl,
       this.url});
 
   GridBean.fromJson(Map<String, dynamic> json) {
@@ -98,6 +100,13 @@ class GridBean {
     List<dynamic> editUrlList = json['editUrl'];
     this.editUrl = new List();
     this.editUrl.addAll(editUrlList.map((o) => o.toString()));
+    try {
+      List<dynamic> saveUrlList = json['saveUrl'];
+      this.saveUrl = new List();
+      this.saveUrl.addAll(saveUrlList.map((o) => o.toString()));
+    } catch (e) {
+      print(e);
+    }
 
     List<dynamic> urlList = json['url'];
     this.url = new List();
@@ -114,6 +123,7 @@ class GridBean {
     data['addUrl'] = this.addUrl;
     data['delUrl'] = this.delUrl;
     data['editUrl'] = this.editUrl;
+    data['saveUrl'] = this.saveUrl;
     data['url'] = this.url;
     return data;
   }

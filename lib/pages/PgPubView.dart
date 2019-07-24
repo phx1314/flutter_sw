@@ -67,18 +67,11 @@ class PgPubViewState extends BaseState<PgPubView> {
         if (mModelWenjianUploads.length > 0) {
           String uploadFile = "&lt;Root&gt;";
           mRefTables.forEach((reftable) {
-            uploadFile += "&lt;Files RefTable=\"" + reftable + "\"&gt;";
+            uploadFile += "&lt;Files RefTable=\"$reftable\"&gt;";
             mModelWenjianUploads.forEach((mRowsBean) {
-              if (mRowsBean.RefTable == reftable &&
-                  mRowsBean.IDD != null &&
-                  mRowsBean.IDD != "") {
-                uploadFile += "&lt;File FileName=\"" +
-                    mRowsBean.Name +
-                    "\" LastModifiedTime=\"" +
-                    Help.getCurrentTime(type: 1) +
-                    "\"&gt;" +
-                    mRowsBean.IDD +
-                    "&lt;/File&gt;";
+              if (mRowsBean.RefTable == reftable&&mRowsBean.IDD!=null&&mRowsBean.IDD!='') {
+                uploadFile +=
+                    "&lt;File FileName=\"${mRowsBean.Name}\" LastModifiedTime=\"${Help.getCurrentTime(type: 1)}\"&gt;${mRowsBean.IDD}&lt;/File&gt;";
               }
             });
             uploadFile += "&lt;/Files&gt;";
@@ -86,24 +79,6 @@ class PgPubViewState extends BaseState<PgPubView> {
             map["\$uplohad\$_cache_y12\$t1m"] = uploadFile;
           });
         }
-
-//        if (mModelFjList.rows.length > 0) {
-//          String uploadFile = "";
-//          uploadFile += "&lt;Root&gt;&lt;Files RefTable=\"" +
-//              widget.item.refTable_file +
-//              "\"&gt;&lt;";
-//          mModelFjList.rows.forEach((mRowsBean) {
-//            uploadFile += "File FileName=\"" +
-//                mRowsBean.Name +
-//                "\" LastModifiedTime=\"" +
-//                Help.getCurrentTime(type: 1) +
-//                "\"&gt;" +
-//                mRowsBean.IDD +
-//                "&lt;/File&gt;&lt;";
-//          });
-//          uploadFile += "/Files&gt;&lt;/Root&gt;";
-//          map["\$uplohad\$_cache_y12\$t1m"] = uploadFile;
-//        }
         map_json.addAll(map);
         loadUrl(METHOD_FLOWWIDGET, map_json);
         break;
@@ -274,11 +249,7 @@ class PgPubViewState extends BaseState<PgPubView> {
       });
       mModelWenjianUploads.addAll(mModelFjList.rows);
       goDie();
-    } else if (methodName == METHOD_FLOWWIDGET ||
-        methodName == METHOD_CUSTOMERSAVE ||
-        methodName == METHOD_CUSTLINKMANSAVE ||
-        methodName == METHOD_CUSTLINKSAVE ||
-        methodName == METHOD_OANIGHTWORKINGSAVE||methodName == METHOD_OAWORKINGHOURSSAVE) {
+    } else {
       Fluttertoast.showToast(msg: ":处理成功");
       Help.sendMsg('PgFlowList,PgBd', 0, '');
       Help.sendMsg('PgHome', 6, '');
@@ -467,17 +438,22 @@ class PgPubViewState extends BaseState<PgPubView> {
     try {
       if (type == '001') {
         if (title == '保存') {
-          if (widget.item.MenuNameEng == 'CustomerInfo') {
-            loadUrl(METHOD_CUSTOMERSAVE, map_json);
-          } else if (widget.item.MenuNameEng == 'CustomerInfo0') {
-            loadUrl(METHOD_CUSTLINKMANSAVE, map_json);
-          } else if (widget.item.MenuNameEng == 'CustomerInfo1') {
-            loadUrl(METHOD_CUSTLINKSAVE, map_json);
-          } else if (widget.item.MenuNameEng == 'OaNightWorking') {
-            loadUrl(METHOD_OANIGHTWORKINGSAVE, map_json);
-          } else if (widget.item.MenuNameEng == 'WorkingHours') {
-            loadUrl(METHOD_OAWORKINGHOURSSAVE, map_json);
+          if (mModelWenjianUploads.length > 0) {
+            String uploadFile = "&lt;Root&gt;";
+            mRefTables.forEach((reftable) {
+              uploadFile += "&lt;Files RefTable=\"" + reftable + "\"&gt;";
+              mModelWenjianUploads.forEach((mRowsBean) {
+                if (mRowsBean.RefTable == reftable&&mRowsBean.IDD!=null&&mRowsBean.IDD!='') {
+                  uploadFile +=
+                  "&lt;File FileName=\"${mRowsBean.Name}\" LastModifiedTime=\"${Help.getCurrentTime(type: 1)}\"&gt;${mRowsBean.IDD}&lt;/File&gt;";
+                }
+              });
+              uploadFile += "&lt;/Files&gt;";
+              uploadFile += "&lt;/Root&gt;";
+              map_json["\$uplohad\$_cache_y12\$t1m"] = uploadFile;
+            });
           }
+          loadUrl(widget.item.mModelMenuConfig.grid.saveUrl[0], map_json);
         } else if (title == '暂存') {
           Map<String, dynamic> map = new Map();
           map['_refID'] = widget.item.Id;
@@ -491,16 +467,9 @@ class PgPubViewState extends BaseState<PgPubView> {
             mRefTables.forEach((reftable) {
               uploadFile += "&lt;Files RefTable=\"" + reftable + "\"&gt;";
               mModelWenjianUploads.forEach((mRowsBean) {
-                if (mRowsBean.RefTable == reftable &&
-                    mRowsBean.IDD != null &&
-                    mRowsBean.IDD != "") {
-                  uploadFile += "&lt;File FileName=\"" +
-                      mRowsBean.Name +
-                      "\" LastModifiedTime=\"" +
-                      Help.getCurrentTime(type: 1) +
-                      "\"&gt;" +
-                      mRowsBean.IDD +
-                      "&lt;/File&gt;";
+                if (mRowsBean.RefTable == reftable&&mRowsBean.IDD!=null&&mRowsBean.IDD!='') {
+                  uploadFile +=
+                  "&lt;File FileName=\"${mRowsBean.Name}\" LastModifiedTime=\"${Help.getCurrentTime(type: 1)}\"&gt;${mRowsBean.IDD}&lt;/File&gt;";
                 }
               });
               uploadFile += "&lt;/Files&gt;";
@@ -534,9 +503,9 @@ class PgPubViewState extends BaseState<PgPubView> {
       } else if (type == '003') {
         Help.goWhere(
             context,
-            widget.item.MenuNameEng == 'proj_mission_cust'
+            widget.item.MenuNameEng == 'ProjInfoRegister'
                 ? PgHtList()
-                : PgXmList());
+                : PgXmList(widget.item.MenuNameEng));
       }
     } catch (e) {
       print(e.toString());
@@ -544,15 +513,14 @@ class PgPubViewState extends BaseState<PgPubView> {
   }
 
   void goDie() {
-    if ((mModelJDInfo != null && mModelJDInfo.StepOrder == 1) ||
-        widget.item.Id == 0) {
+    if ((mModelJDInfo != null && mModelJDInfo.StepOrder != 1)) {
+      Help.goWhere(context,
+          PgFileList(widget.item.Id.toString(), mModelUpload.RefTable));
+    } else {
       Help.goWhere(
           context,
           PgFileListEdit(widget.item.Id.toString(), mModelUpload.RefTable,
               widget.toString(), mModelWenjianUploads));
-    } else {
-      Help.goWhere(context,
-          PgFileList(widget.item.Id.toString(), mModelUpload.RefTable));
     }
   }
 

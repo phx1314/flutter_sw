@@ -19,32 +19,13 @@ class PgWode extends StatefulWidget {
 }
 
 class PgWodeState extends BaseState<PgWode> {
-  ModelCount mModelCount;
   FlutterWebviewPlugin flutterWebViewPlugin = new FlutterWebviewPlugin();
-  @override
-  void initState() {
-    super.initState();
-//    PaintingBinding.instance.imageCache
-    loadUrl (METHOD_GetMails, null,
-        isShow: false);
-  }
 
   @override
   void disMsg(int what, data) {
     switch (what) {
       case 0:
-        loadUrl (METHOD_GetMails, null,
-            isShow: false);
         break;
-    }
-  }
-
-  @override
-  onSuccess(String methodName, res) {
-    if (methodName == METHOD_GetMails) {
-      mModelCount = ModelCount.fromMap(res.data);
-      Help.sendMsg("PgHome", 0, mModelCount);
-      reLoad();
     }
   }
 
@@ -156,76 +137,33 @@ class PgWodeState extends BaseState<PgWode> {
           children: <Widget>[
             top,
 //            ListTile(
-//              leading: Image.asset('static/images/xiazai.png',
+//              onTap: () {
+//                Help.goWhere(context, PgWebView('http://www.jinqu.cn/'));
+//              },
+//              leading: Image.asset('static/images/bangzhu.png',
 //                  width: ScreenUtil.getScaleW(context, 22),
-//                  height: ScreenUtil().getHeight(22)),
-//              title: const Text('我的下载'),
+//                  height: ScreenUtil.getScaleW(context, 22)),
+//              title: const Text('帮助中心'),
 //              trailing: Icon(Icons.chevron_right, color: Colors.grey),
 //            ),
-//            Divider(height: ScreenUtil.getScaleH(context, 1)),
-            ListTile(
-                onTap: () {
-                  Help.goWhere(context, PgEmailList());
-                },
-                leading: Image.asset('static/images/youjian.png',
-                    width: ScreenUtil.getScaleW(context, 22),
-                    height: ScreenUtil.getScaleW(context, 22)),
-                title: Text('我的邮件'),
-                trailing: Container(
-                  width: ScreenUtil.getScaleW(context, 65),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Visibility(
-                        child: CircleAvatar(
-                          radius: ScreenUtil.getScaleW(context, 11),
-                          backgroundColor: Colors.red,
-                          child: Text(
-                            mModelCount == null
-                                ? ''
-                                : mModelCount.Total.toString(),
-                            style: Style.minTextWhite,
-                          ),
-                        ),
-                        visible: mModelCount != null && mModelCount.Total > 0,
-                      ),
-                      Icon(Icons.chevron_right, color: Colors.grey)
-                    ],
-                  ),
-                )),
-            Container(
-              height: ScreenUtil.getScaleW(context, 7),
-              color: Color(GSYColors.f2f2f2),
-            ),
-            ListTile(
-              onTap: () {
-                Help.goWhere(context, PgWebView('http://www.jinqu.cn/'));
-              },
-              leading: Image.asset('static/images/bangzhu.png',
-                  width: ScreenUtil.getScaleW(context, 22),
-                  height: ScreenUtil.getScaleW(context, 22)),
-              title: const Text('帮助中心'),
-              trailing: Icon(Icons.chevron_right, color: Colors.grey),
-            ),
-            Divider(height: 1),
-            ListTile(
-              onTap: () {
-                Help.goWhere(
-                    context,
-                    PgWebView(
-                        'http://www.jinqu.cn:2016/channel.aspx?id=11#jq_4'));
-              },
-              leading: Image.asset('static/images/kefu.png',
-                  width: ScreenUtil.getScaleW(context, 22),
-                  height: ScreenUtil.getScaleW(context, 22)),
-              title: const Text('联系客服'),
-              trailing: Icon(Icons.chevron_right, color: Colors.grey),
-            ),
-            Container(
-              height: ScreenUtil.getScaleW(context, 7),
-              color: Color(GSYColors.f2f2f2),
-            ),
+//            Divider(height: 1),
+//            ListTile(
+//              onTap: () {
+//                Help.goWhere(
+//                    context,
+//                    PgWebView(
+//                        'http://www.jinqu.cn:2016/channel.aspx?id=11#jq_4'));
+//              },
+//              leading: Image.asset('static/images/kefu.png',
+//                  width: ScreenUtil.getScaleW(context, 22),
+//                  height: ScreenUtil.getScaleW(context, 22)),
+//              title: const Text('联系客服'),
+//              trailing: Icon(Icons.chevron_right, color: Colors.grey),
+//            ),
+//            Container(
+//              height: ScreenUtil.getScaleW(context, 7),
+//              color: Color(GSYColors.f2f2f2),
+//            ),
             ListTile(
               onTap: () {
                 Help.goWhere(context, PgSet());

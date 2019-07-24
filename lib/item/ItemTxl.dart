@@ -12,7 +12,7 @@ class ItemTxl extends StatefulWidget {
   BaseEmployeeListBean model;
   int type;
 
-  ItemTxl(this.model, this.type );
+  ItemTxl(this.model, this.type);
 
   @override
   ItemTxlState createState() => new ItemTxlState();
@@ -65,7 +65,7 @@ class ItemTxlState extends BaseState<ItemTxl> {
               if (widget.type == 0) {
                 Help.goWhere(context, PgGrzl(widget.model.EmpID));
               } else if (widget.type == 1) {
-                finish();
+                Help.sendMsg('PgXzryOne', 0, widget.model);
               } else if (widget.type == 2) {
                 widget.model.isChecked = !widget.model.isChecked;
                 Help.sendMsg('PgXzry', 0, widget.model);

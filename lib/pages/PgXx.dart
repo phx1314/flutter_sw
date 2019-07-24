@@ -5,6 +5,8 @@ import 'package:flutter_std/pages/PgTxl.dart';
 import 'package:flutter_std/pages/PgXxson.dart';
 import 'package:flutter_std/utils/BaseState.dart';
 
+import 'PgXtxx.dart';
+
 class PgXx extends StatefulWidget {
   @override
   PgXxState createState() => PgXxState();
@@ -46,7 +48,7 @@ class PgXxState extends BaseState<PgXx> {
           centerTitle: true,
         ),
         body: TabBarView(
-          children: [PgXxson(), PgTxl()],
+          children: [PgXtxx(), PgTxl()],
         ),
       ),
     );

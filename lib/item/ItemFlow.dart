@@ -89,7 +89,7 @@ class ItemFlow extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              item.text??'',
+                              item.text??item.FlowName??'',
                               style: Style.text_style_16_black,
                             ),
                             Column(

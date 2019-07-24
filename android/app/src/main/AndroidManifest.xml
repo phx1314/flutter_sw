@@ -45,7 +45,10 @@
         <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
         <activity android:name="com.apptreesoftware.flutterwebview.WebViewActivity">
         </activity>
-
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <!--<meta-data-->
             <!--android:name="com.amap.api.v2.apikey"-->
             <!--android:value="71921fa552a5119c74d39fc297f1d2c4" />-->

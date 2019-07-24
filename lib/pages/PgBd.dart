@@ -19,8 +19,14 @@ class PgBd extends StatefulWidget {
 }
 
 class PgBdState extends BaseState<PgBd> {
-  String statusID = "1";
-  String modular = "2";
+  String listtype = "1";
+  Map<String, String> map = {
+    'BussProjCirculation': '深化流转单',
+    'BussBiddingEstimateCost': '成本估算',
+    'BussBiddingCost': '成本统计',
+    'BussContract': '合同信息'
+  };
+  String reftable = "BussProjCirculation";
   PullListView mPullListView;
 
   @override
@@ -47,26 +53,17 @@ class PgBdState extends BaseState<PgBd> {
       isFirstLoad: false,
       methodName: METHOD_GetToDoList,
       other: {
-        "statusID": statusID,
-        "modular": modular,
+        "listtype": listtype,
+        "reftable": reftable,
       },
       mCallback: (methodName, res) {
         ModelFlowList mModelFlowList = ModelFlowList.fromJson(res.data);
         List data = new List();
         mModelFlowList.rows.forEach((f) {
-          data.add(ItemFlow(f, statusID));
-          for (int j = 0; j < Help.mModelWorkBeans.length; j++) {
-            if (Help.mModelWorkBeans[j].MenuMobileConfig
-                    .contains(f.FlowRefTable) &&
-                f.FlowRefTable ==
-                    Help.mModelWorkBeans[j].mModelMenuConfig.flow.refTable) {
-              f.text = Help.mModelWorkBeans[j].text;
-              f.mModelMenuConfig = ModelMenuConfig.fromJson(json.decode(
-                  Help.getRightdata(
-                      Help.mModelWorkBeans[j].MenuMobileConfig, f.toJson())));
-              break;
-            }
-          }
+          data.add(ItemFlow(f, listtype));
+          f.text=f.FlowName;
+          f.mModelMenuConfig = ModelMenuConfig.fromJson(json
+              .decode(Help.getRightdata(Help.mMap_bd[reftable], f.toJson())));
         });
         return data;
       },
@@ -91,9 +88,7 @@ class PgBdState extends BaseState<PgBd> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          modular == '0'
-                              ? '全部'
-                              : modular == '1' ? '项目表单' : '办公表单',
+                          map[reftable],
                           style: Style.text_style_16_gray,
                         ),
                         Icon(
@@ -121,7 +116,7 @@ class PgBdState extends BaseState<PgBd> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          statusID == '1' ? '未审批' : '已审批',
+                          listtype == '1' ? '待我审批' : '经我审批',
                           style: Style.text_style_16_gray,
                         ),
                         Icon(Icons.keyboard_arrow_down, color: Colors.grey)
@@ -154,19 +149,23 @@ class PgBdState extends BaseState<PgBd> {
             0,
             0),
         items: <PopupMenuEntry<String>>[
-//          PopupMenuItem<String>(
-//            value: "0",
-//            child: Container(
-//                width: ScreenUtil.getScaleW(context, 100), child: Text('全部')),
-//          ),
-//          PopupMenuDivider(height: 1.0),
-          PopupMenuItem<String>(value: "1", child: Text('项目表单')),
+          PopupMenuItem<String>(
+              value: "BussProjCirculation",
+              child: Text(map['BussProjCirculation'])),
           PopupMenuDivider(height: 1.0),
-          PopupMenuItem<String>(value: "2", child: Text('办公表单')),
+          PopupMenuItem<String>(
+              value: "BussBiddingEstimateCost",
+              child: Text(map['BussBiddingEstimateCost'])),
+          PopupMenuDivider(height: 1.0),
+          PopupMenuItem<String>(
+              value: "BussBiddingCost", child: Text(map['BussBiddingCost'])),
+          PopupMenuDivider(height: 1.0),
+          PopupMenuItem<String>(
+              value: "BussContract", child: Text(map['BussContract'])),
         ]).then((v) {
       if (v == null) return;
-      modular = v.toString();
-      mPullListView.other = {"statusID": statusID, "modular": modular};
+      reftable = v.toString();
+      mPullListView.other = {"listtype": listtype, "reftable": reftable};
       mPullListView.reLoad();
       reLoad();
     });
@@ -186,14 +185,14 @@ class PgBdState extends BaseState<PgBd> {
           PopupMenuItem<String>(
             value: "1",
             child: Container(
-                width: ScreenUtil.getScaleW(context, 100), child: Text('未审批')),
+                width: ScreenUtil.getScaleW(context, 100), child: Text('待我审批')),
           ),
           PopupMenuDivider(height: 1.0),
-          PopupMenuItem<String>(value: "2", child: Text('已审批')),
+          PopupMenuItem<String>(value: "2", child: Text('经我审批')),
         ]).then((v) {
       if (v == null) return;
-      statusID = v.toString();
-      mPullListView.other = {"statusID": statusID, "modular": modular};
+      listtype = v.toString();
+      mPullListView.other = {"listtype": listtype, "reftable": reftable};
       mPullListView.reLoad();
       reLoad();
     });

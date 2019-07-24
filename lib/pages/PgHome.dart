@@ -37,8 +37,7 @@ class PgHome extends StatefulWidget {
 
 class PgHomeState extends BaseState<PgHome> with WidgetsBindingObserver {
   int _tabIndex = 0;
-  var appBarTitles = ['工作', '发现', '消息', '新闻', '我的'];
-  ModelCount mModelCount;
+  var appBarTitles = ['工作', '发现', '消息', '我的'];
   int _lastClickTime = 0;
   int xxCount = 0;
   ModelAA mModelAA;
@@ -64,12 +63,7 @@ class PgHomeState extends BaseState<PgHome> with WidgetsBindingObserver {
 
   @override
   onSuccess(String methodName, res) {
-    if (methodName == METHOD_GetWork) {
-      Help.mModelWorkBeans = List();
-      ModelWork mModelWork = ModelWork.fromJson(res.data);
-      addSon(mModelWork.rows);
-      Help.sendMsg("PgBd", 0, '');
-    } else if (methodName == METHOD_UPDATE) {
+    if (methodName == METHOD_UPDATE) {
       ModelVersion mModelVersion = ModelVersion.fromJson(res.data);
       PackageInfo.fromPlatform().then((PackageInfo packageInfo) {
         if (packageInfo.version != mModelVersion.data.buildVersion) {
@@ -81,24 +75,30 @@ class PgHomeState extends BaseState<PgHome> with WidgetsBindingObserver {
     } else if (methodName == METHOD_GetAmount) {
       mModelAA = ModelAA.fromJson(res.data);
       reLoad();
+    } else if (methodName == 'BussProjCirculation') {
+      Help.mMap_bd.clear();
+      Help.mMap_bd.addAll({'BussProjCirculation': res.json});
+      loadUrl(METHOD_GETMENUMOBILECONFIG + 'CostEstimation', null,
+          isShow: false, biaoshi: 'BussBiddingEstimateCost');
+    } else if (methodName == 'BussBiddingEstimateCost') {
+      Help.mMap_bd.addAll({'BussBiddingEstimateCost': res.json});
+      loadUrl(METHOD_GETMENUMOBILECONFIG + 'CostStatistics', null,
+          isShow: false, biaoshi: 'BussBiddingCost');
+    } else if (methodName == 'BussBiddingCost') {
+      Help.mMap_bd.addAll({'BussBiddingCost': res.json});
+      loadUrl(METHOD_GETMENUMOBILECONFIG + 'ContractInfo', null,
+          isShow: false, biaoshi: 'BussContract');
+    } else if (methodName == 'BussContract') {
+      Help.mMap_bd.addAll({'BussContract': res.json});
+      Help.sendMsg("PgBd", 0, '');
     }
-  }
-
-  void addSon(List<ModelWorkBean> rows) {
-    rows.forEach((item) {
-      if (item.MenuMobileConfig != "{}") {
-        item.mModelMenuConfig =
-            ModelMenuConfig.fromJson(json.decode(item.MenuMobileConfig));
-        Help.mModelWorkBeans.add(item);
-      }
-      if (item.children != null) addSon(item.children);
-    });
   }
 
   @override
   void initState() {
     super.initState();
-    loadUrl(METHOD_GetWork, null, isShow: false);
+    loadUrl(METHOD_GETMENUMOBILECONFIG + 'ProjCirculation', null,
+        isShow: false, biaoshi: 'BussProjCirculation');
     loadUrl(METHOD_GetAmount, {"app": "1"}, isShow: false);
     loadUrl(
         METHOD_UPDATE,
@@ -113,7 +113,7 @@ class PgHomeState extends BaseState<PgHome> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     KeyboardVisibilityNotification().addNewListener(
       onChange: (bool visible) {
-        Help.sendMsg('PgPubView,ItemDialogSub', 889, visible);
+        Help.sendMsg('PgPubView,ItemDialogSub,PgHtsk', 889, visible);
       },
     );
   }
@@ -126,7 +126,7 @@ class PgHomeState extends BaseState<PgHome> with WidgetsBindingObserver {
         break;
       case AppLifecycleState.resumed: // 应用程序可见，前台
         print("前台");
-        if (Help.mModelUser.UserInfo.isLock) {
+        if (Help.mModelUser.UserInfo.isLock!=null&&Help.mModelUser.UserInfo.isLock) {
           Help.goWhere(context, PageDialogLock());
         }
         break;
@@ -147,10 +147,6 @@ class PgHomeState extends BaseState<PgHome> with WidgetsBindingObserver {
   @override
   disMsg(int what, var data) {
     switch (what) {
-      case 0:
-        mModelCount = data;
-        reLoad();
-        break;
       case 1:
         _changeTab(data);
         break;
@@ -174,7 +170,7 @@ class PgHomeState extends BaseState<PgHome> with WidgetsBindingObserver {
       child: Scaffold(
           body: IndexedStack(
               index: _tabIndex,
-              children: <Widget>[PgWork(), PgFx(), PgXx(), PgNews(), PgWode()]),
+              children: <Widget>[PgWork(), PgFx(), PgXx(), PgWode()]),
           bottomNavigationBar: BottomTabBar(
             items: <BottomTabBarItem>[
               BottomTabBarItem(
@@ -224,37 +220,16 @@ class PgHomeState extends BaseState<PgHome> with WidgetsBindingObserver {
                     : null,
               ),
               BottomTabBarItem(
-                  icon: Icon(Icons.fiber_new),
-                  title: Text(appBarTitles[3],
-                      style: TextStyle(
-                          fontSize: 15,
-                          color:
-                              _tabIndex == 3 ? Help.mColor : Colors.black45))),
-              BottomTabBarItem(
                 icon: Icon(Icons.person),
-                title: Text(appBarTitles[4],
+                title: Text(appBarTitles[3],
                     style: TextStyle(
                         fontSize: 15,
-                        color: _tabIndex == 4 ? Help.mColor : Colors.black45)),
-                badge: mModelCount != null && mModelCount.Total > 0
-                    ? CircleAvatar(
-                        radius: ScreenUtil.getScaleW(context, 9),
-                        backgroundColor: Colors.red,
-                        child: Text(
-                          mModelCount.Total > 99
-                              ? 99
-                              : mModelCount.Total.toString(),
-                          style: Style.minTextWhite,
-                        ),
-                      )
-                    : null,
+                        color: _tabIndex == 3 ? Help.mColor : Colors.black45)),
               ),
             ],
             type: BottomTabBarType.fixed,
             currentIndex: _tabIndex,
             fixedColor: Help.mColor,
-            isAnimation: false,
-            isInkResponse: false,
             //点击事件
             onTap: (int a) => _changeTab(a),
           )),

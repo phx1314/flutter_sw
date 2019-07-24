@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:crypto/crypto.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_std/Help.dart';
 import 'package:flutter_std/model/ModelFlowList.dart';
 import 'package:flutter_std/pages/PgGjkh.dart';
+import 'package:flutter_std/pages/PgHtsk.dart';
 import 'package:flutter_std/pages/PgWebDetail.dart';
 import 'package:flutter_std/utils/BaseState.dart';
 import 'package:flutter_std/utils/GSYStyle.dart';
@@ -45,12 +47,22 @@ class ItemBaseState extends BaseState<ItemBase> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        if (widget.item.MenuNameEng == "CustomerInfo" ||
-            widget.item.MenuNameEng == "CustPool") {
-          //跟进客户
-          Help.goWhere(context, PgGjkh(widget.item, widget.item.Id.toString()));
-        } else if (widget.item.mModelMenuConfig != null) {
-          Help.go2PubView(context, widget.item, "");
+        if (widget.item.mModelMenuConfig != null) {
+          if (widget.item.MenuNameEng == "CluePoolInfo" ||
+              widget.item.MenuNameEng == "BussinessCustomerPool") {
+            widget.item.isChecked = !widget.item.isChecked;
+            reLoad();
+          } else if (widget.item.MenuNameEng == "contract_feerecv" ||
+              widget.item.MenuNameEng == "contract_invoice") {
+            Help.goWhere(
+                context,
+                PgHtsk(widget.item.mModelMenuConfig.grid.saveUrl[0],
+                    widget.item.FormId,
+                    "${Help.BASEURL}/${widget.item.mModelMenuConfig.grid.editUrl[0]}&a=${Uri.encodeComponent(Help.mModelUser.name)}&p=${md5.convert(utf8.encode(Help.mModelUser.password)).toString()}",
+                    widget.item.MenuNameEng));
+          } else {
+            Help.go2PubView(context, widget.item, "");
+          }
         } else {
           Help.goWhere(
               context,
@@ -60,11 +72,24 @@ class ItemBaseState extends BaseState<ItemBase> {
       },
       child: Container(
         padding: EdgeInsets.all(ScreenUtil.getScaleW(context, 10)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: mWidgets,
-        ),
+        child: Row(children: <Widget>[
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: mWidgets,
+            ),
+          ),
+          Visibility(
+            child: Padding(
+              padding: EdgeInsets.only(right: 15.0),
+              child: Icon(Icons.done, color: Colors.blue),
+            ),
+            visible: widget.item.isChecked &&
+                (widget.item.MenuNameEng == 'CluePoolInfo' ||
+                    widget.item.MenuNameEng == 'BussinessCustomerPool'),
+          )
+        ]),
       ),
     );
   }

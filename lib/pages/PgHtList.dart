@@ -27,7 +27,7 @@ class PgHtListState extends BaseState<PgHtList> {
   @override
   void initView() {
     mPullListView = PullListView(
-      methodName: method_Contract,
+      methodName: method_BussBiddingInfo,
       mCallback: (methodName, res) {
         ModelHt mModelFlowList = ModelHt.fromJson(res.data);
         List data = new List();
@@ -66,7 +66,7 @@ class PgHtListState extends BaseState<PgHtList> {
               List<SearchListBean> search = List();
               SearchListBean s1 = new SearchListBean();
               s1.type = "text";
-              s1.text = "请输入客户名称";
+              s1.text = "请输入项目编号、项目名称";
               s1.sqlstring =
                   '{"isGroup":false,"list":[{"Key":"txtLike","Contract":"like","Value":"#{value}"}]}';
               search.add(s1);

@@ -42,7 +42,7 @@ class PgSearchState extends BaseState<PgSearch> {
         e.mModelDxs = List();
         Help.mModelUser.BaseData.forEach((f) {
           if (f.BaseOrder.startsWith(e.baseorder)) {
-            e.mModelDxs.add(ModelDx(f.BaseName, f.BaseID));
+            e.mModelDxs.add(ModelDx(f.BaseName, f.BaseID,f.BaseOrder));
           }
         });
       }
@@ -78,19 +78,22 @@ class PgSearchState extends BaseState<PgSearch> {
     List<dynamic> objs = new List();
     Map<String, dynamic> map = new Map();
     widget.item.forEach((f) {
-      if (f.value != null && f.value.isNotEmpty) {
-        if (f.sqlstring != null && f.sqlstring != '') {
+      if (f.sqlstring != null && f.sqlstring != '') {
+        if (f.value != null && f.value.isNotEmpty) {
           f.sqlstring = f.sqlstring
               .replaceAll("#{value}", f.type == "basedata" ? f.ids : f.value);
           objs.add(jsonDecode(f.sqlstring));
-          print(jsonEncode(objs));
-          Help.sendMsg(widget.from, 888, jsonEncode(objs));
-        } else {
-          map.addAll({f.sqlkey: f.type == "basedata" ? f.ids : f.value});
-          Help.sendMsg(widget.from, 889, map);
         }
+      } else {
+        map.addAll({f.sqlkey: f.type == "basedata" ? f.ids : f.value ?? ''});
       }
     });
+    if (widget.item[0].sqlstring != null && widget.item[0].sqlstring != '') {
+      Help.sendMsg(widget.from, 888, jsonEncode(objs));
+    } else {
+      Help.sendMsg(widget.from, 889, map);
+    }
+
     finish();
   }
 

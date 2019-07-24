@@ -8,7 +8,7 @@ import 'package:flutter_std/utils/GSYStyle.dart';
 class PgDuoXuan extends StatefulWidget {
   SearchListBean item;
 
-  PgDuoXuan(this.item );
+  PgDuoXuan(this.item);
 
   @override
   PgDuoXuanState createState() => new PgDuoXuanState();
@@ -34,8 +34,8 @@ class PgDuoXuanState extends BaseState<PgDuoXuan> {
                 }
               });
               if (widget.item.value.length > 0) {
-                widget.item.value =
-                    widget.item.value.substring(0, widget.item.value.length - 1);
+                widget.item.value = widget.item.value
+                    .substring(0, widget.item.value.length - 1);
                 widget.item.ids =
                     widget.item.ids.substring(0, widget.item.ids.length - 1);
               }
@@ -57,12 +57,13 @@ class PgDuoXuanState extends BaseState<PgDuoXuan> {
         itemCount: widget.item.mModelDxs.length,
         itemBuilder: (context, index) => InkWell(
               onTap: () {
-                if (widget.item.mModelDxs[index].isChecked == null) {
-                  widget.item.mModelDxs[index].isChecked = true;
-                } else {
-                  widget.item.mModelDxs[index].isChecked =
-                      !(widget.item.mModelDxs[index].isChecked);
+                if (widget.item.mModelDxs[index].BaseOrder.startsWith('142_') &&
+                    widget.item.mModelDxs[index].BaseOrder.split('_').length <=
+                        2) {
+                  return;
                 }
+                widget.item.mModelDxs[index].isChecked =
+                    !(widget.item.mModelDxs[index].isChecked);
                 reLoad();
               },
               child: ListTile(
@@ -70,8 +71,7 @@ class PgDuoXuanState extends BaseState<PgDuoXuan> {
                   widget.item.mModelDxs[index].string,
                   style: Style.text_style_14_black,
                 ),
-                trailing: (widget.item.mModelDxs[index].isChecked != null &&
-                        widget.item.mModelDxs[index].isChecked)
+                trailing: (widget.item.mModelDxs[index].isChecked)
                     ? Icon(Icons.done, color: Colors.blue)
                     : null,
               ),

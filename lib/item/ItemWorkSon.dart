@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:crypto/crypto.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_std/Help.dart';
@@ -7,8 +8,10 @@ import 'package:flutter_std/model/ModelMenuConfig.dart';
 import 'package:flutter_std/model/ModelWork.dart';
 import 'package:flutter_std/pages/PgEmailList.dart';
 import 'package:flutter_std/pages/PgFlowList.dart';
+import 'package:flutter_std/pages/PgJdgl.dart';
 import 'package:flutter_std/pages/PgRz.dart';
 import 'package:flutter_std/pages/PgSendEmail.dart';
+import 'package:flutter_std/pages/PgWebView.dart';
 import 'package:flutter_std/utils/FontString.dart';
 import 'package:flutter_std/utils/GSYStyle.dart';
 
@@ -97,9 +100,11 @@ class ItemWorkSon extends StatelessWidget {
       print(e);
     }
 
-    if (item.MenuNameEng == "MailReceive") {Navigator.pop(context);
+    if (item.MenuNameEng == "MailReceive") {
+      Navigator.pop(context);
       Help.goWhere(context, PgEmailList(type: 1));
-    } else if (item.MenuNameEng == "OaCheckList") {Navigator.pop(context);
+    } else if (item.MenuNameEng == "OaCheckList") {
+      Navigator.pop(context);
       return;
     } else if (item.MenuNameEng == "MailSend") {
       //发件箱
@@ -129,13 +134,38 @@ class ItemWorkSon extends StatelessWidget {
       //业务
       Navigator.pop(context);
       Help.goWhere(context, PgRz(0));
-    } else if (item.MenuNameEng == "OaScheduler") {
-      //工作
+    } else if (item.MenuNameEng == "ProjectStatistics") {
+      //项目汇总
+      Navigator.pop(context);
+      Help.goWhere(
+          context,
+          PgWebView(
+              '${Help.BASEURL}/Bussiness/BussAnalysismobile/list?a=${Uri.encodeComponent(Help.mModelUser.name)}&p=${md5.convert(utf8.encode(Help.mModelUser.password)).toString()}'));
+    } else if (item.MenuNameEng == "ProjProgress") {
+      //项目进度管理
+      Navigator.pop(context);
+      Help.goWhere(context, PgJdgl());
+    } else if (item.MenuNameEng == "MyFlowList") {
+      //我的申请
+      Navigator.pop(context);
+      ModelWorkBean mModelWorkBean = new ModelWorkBean();
+      mModelWorkBean.MenuNameEng = 'MyFlowList';
+      mModelWorkBean.text = '深化流转单';
+      mModelWorkBean.MenuMobileConfig = Help.mMap_bd['BussProjCirculation'];
+      mModelWorkBean.mModelMenuConfig = ModelMenuConfig.fromJson(
+          json.decode(mModelWorkBean.MenuMobileConfig));
+      Help.goWhere(context, PgFlowList(mModelWorkBean));
+    } else if (item.MenuNameEng == "PersonalCentre") {
+      //个人中心
+      Help.goWhere(
+          context,
+          PgWebView(
+              '${Help.BASEURL}/Core/layoutmobile/CompanyLeaders?a=${Uri.encodeComponent(Help.mModelUser.name)}&p=${md5.convert(utf8.encode(Help.mModelUser.password)).toString()}'));
     } else {
-      if (item.mModelMenuConfig != null){
-        Navigator.pop(context); Help.goWhere(context, PgFlowList(item));
+      if (item.mModelMenuConfig != null) {
+        Navigator.pop(context);
+        Help.goWhere(context, PgFlowList(item));
       }
-
     }
   }
 

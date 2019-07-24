@@ -41,7 +41,7 @@ const LANGUAGE_SELECT_NAME = "language-select-name";
 const REFRESH_LANGUAGE = "refreshLanguageApp";
 const THEME_COLOR = "theme-color";
 const LOCALE = "locale";
-const FILE_DATA = <String>['音频文件', '当前位置', '图片拍照'];
+const FILE_DATA = <String>['音频文件',   '图片拍照'];
 const List colors = [
   Colors.red,
   Colors.pink,
@@ -63,22 +63,33 @@ const List colors = [
 //  Colors.blueGrey,
 ];
 const apikey = "577b7cfb3d94c174f0998202c852b88e";
-const appKey = "a4ef50168290c74a2d6998badceafd68";
+const appKey = "c1ab9fe708d2e2c10083a121dc6dd7cc";
 const appKeyIos = "3ff2984c3f920686625b85f5695d0b82";
+const METHOD_BUSSCLUEBATCHRECEIVE = "bussiness/BussClue/batchReceive";
+const METHOD_BUSSCLUEBATCHDISTRIBUTION = "bussiness/BussClue/BatchDistribution";
+const METHOD_BUSSCLUECONVERSIONCUSTOMER =
+    "bussiness/BussClue/conversionCustomer";
+const METHOD_BUSSINESSCUSTOMERBATCHRECEIVE =
+    "bussiness/BussinessCustomer/batchReceive";
+const METHOD_BATCHDISTRIBUTION =
+    "bussiness/BussinessCustomer/BatchDistribution";
 const METHOD_LOGIN = "core/main/checkuserlogin1";
 const METHOD_OAWORKINGHOURSSAVE = "oa/OaWorkingHours/save";
+const METHOD_BUSSINESSCUSTOMERSAVE = "bussiness/BussinessCustomer/save";
+const METHOD_BUSSPROJECTSAVE = "bussiness/BussProject/save";
 const METHOD_OANIGHTWORKINGSAVE = "oa/OaNightWorking/save";
-const METHOD_JSONCHOOSEPROJECT = "project/ProjectJQ/jsonChooseProject";
+const METHOD_JSONCHOOSEPROJECT = "bussiness/BussProject/Json";
 const METHOD_CUSTOMERSAVE = "bussiness/Customer/save";
 const METHOD_CUSTLINKSAVE = "bussiness/CustLink/save";
 const METHOD_CUSTLINKMANSAVE = "bussiness/CustLinkMan/save";
 const METHOD_CUSTLINKDEL = "bussiness/CustLink/del";
 const METHOD_CUSTLINKMANDEL = "bussiness/CustLinkMan/del";
-const METHOD_GetToDoList = "core/PubFlow/GetToDoList";
+const METHOD_GetToDoList = "bussiness/BussFlow/json";
 const METHOD_OANEW = "oa/OaNew/json";
 const METHOD_GetMails = "Core/Layout/GetMails";
 const METHOD_GetImageNews = "core/layout/GetImageNews";
 const METHOD_GetWork = "Core/menu/mobilemenujson?level=1&isIcon=true";
+const METHOD_GETMENUMOBILECONFIG = "core/menu/getMenuMobileConfig?menuNameEng=";
 const METHOD_GetAmount = "core/PubFlow/GetAmount";
 const METHOD_OANOTICE = "oa/OaNotice/json";
 const METHOD_GetMessages = "oa/Message/GetMessages";
@@ -86,6 +97,7 @@ const METHOD_GETLIST = "oa/Message/GetList";
 const METHOD_SetReadStatus = "oa/Message/SetReadStatus";
 const METHOD_DeleteRead = "oa/Message/DeleteRead";
 const METHOD_FLOWWIDGET = "core/PubFlow/FlowWidget";
+const METHOD_BUSSCLUESAVE = "bussiness/BussClue/save";
 const METHOD_GETFLOWEXE = "core/PubFlow/GetFlowExe";
 const METHOD_GETATTACHFILES = "core/ProcessFile/GetAttachFiles";
 const METHOD_EDITINFO = "core/user/editInfo";
@@ -98,6 +110,7 @@ const METHOD_MAILRECEIVEJSON3 = "oa/OaMail/mailsendjson?Flag=1";
 const METHOD_MAILRECEIVEJSON4 = "oa/OaMail/mailjunkjson";
 const METHOD_UpdateReadByIds = "Oa/OaMail/UpdateReadByIds?ids=";
 const METHOD_OAMAILDEL = "oa/OaMailRead/del";
+const METHOD_SAVESETTING = "bussiness/BussProject/saveSetting";
 const METHOD_OAMAILDELCG = "oa/OaMail/del";
 const refTable_OaMail = "OaMail";
 const METHOD_OAMAILDETAIL = "oa/OaMail/editInfo";
@@ -107,14 +120,14 @@ const METHOD_OAMAIL = "oa/oamail/save";
 const METHOD_UPLOAD = "core/ProcessFile/Upload"; //上传文件
 const METHOD_DELETE = "core/ProcessFile/Delete"; //删除文件
 const method_file_upload = "file/upload";
-const method_Contract = "bussiness/Contract/json";
+const method_BussBiddingInfo = "bussiness/BussBiddingInfo/Winjson";
 const method_userchat_add = "userchat/add";
 const METHOD_UPDATE = "https://www.pgyer.com/apiv2/app/check";
 const JPush_Alias_BeginWith = "2015001GoldPM9_Default_EmpID_";
-//const JPush_Alias_BeginWith = "jqpm_EmpID_";
 
+//const JPush_Alias_BeginWith = "jqpm_EmpID_";
 class Help {
-  static var URL = "http://192.168.0.193";
+  static var URL = "http://192.168.0.180";
   static var BASEURL = "$URL/GoldPM9_jsczswzb";
 
 //  static var URL = "http://47.94.23.147:8080";
@@ -126,7 +139,7 @@ class Help {
   static var cookie = "";
   static var ISFIRST = "";
   static final EventBus mEventBus = new EventBus();
-  static List<ModelWorkBean> mModelWorkBeans;
+  static Map<String, String> mMap_bd = new Map();
   static Color mColor = Colors.blue;
   static ImageCacheManager mImageCacheManager = new ImageCacheManager();
 
@@ -155,7 +168,6 @@ class Help {
           mModelUser.SessionID +
           "; " +
           "AgentID=; expires=Fri, 20-May-1983 16:00:00 GMT; path=/";
-      ;
       return mModelUser;
     } catch (e) {
       print(e.toString());
@@ -172,7 +184,7 @@ class Help {
     }
   }
 
-  static addEventHandler(BuildContext context, JPush mJPush) {
+  static addEventHandler(JPush mJPush) {
     try {
       mJPush.addEventHandler(
           onReceiveNotification: (Map<String, dynamic> event) {
@@ -191,19 +203,11 @@ class Help {
           RowsListBean item = new RowsListBean();
           item.Id = int.parse(mModelPush.Id);
 
-          for (int j = 0; j < Help.mModelWorkBeans.length; j++) {
-            if (Help.mModelWorkBeans[j].MenuMobileConfig
-                    .contains(mModelPush.RefTable) &&
-                mModelPush.RefTable ==
-                    Help.mModelWorkBeans[j].mModelMenuConfig.flow.refTable) {
-              item.text = Help.mModelWorkBeans[j].text;
-              item.mModelMenuConfig = ModelMenuConfig.fromJson(json.decode(
-                  Help.getRightdata(Help.mModelWorkBeans[j].MenuMobileConfig,
-                      json.decode(data))));
-              break;
-            }
-          }
-          Help.sendMsg("PgHome", 222, item);
+          item.text = mModelPush.Title;
+          item.mModelMenuConfig = ModelMenuConfig.fromJson(json.decode(
+              Help.getRightdata(
+                  Help.mMap_bd[mModelPush.RefTable], json.decode(data))));
+          if (item.mModelMenuConfig != null) Help.sendMsg("PgHome", 222, item);
         } else {
           String RefTable = event['extras']['RefTable'];
           if (RefTable == "CreateGroup" ||
@@ -213,19 +217,10 @@ class Help {
               RefTable == "OaMail") return;
           RowsListBean item = new RowsListBean();
           item.Id = int.parse(event['extras']['Id']);
-
-          for (int j = 0; j < Help.mModelWorkBeans.length; j++) {
-            if (Help.mModelWorkBeans[j].MenuMobileConfig.contains(RefTable) &&
-                RefTable ==
-                    Help.mModelWorkBeans[j].mModelMenuConfig.flow.refTable) {
-              item.text = Help.mModelWorkBeans[j].text;
-              item.mModelMenuConfig = ModelMenuConfig.fromJson(json.decode(
-                  Help.getRightdata(Help.mModelWorkBeans[j].MenuMobileConfig,
-                      event['extras'])));
-              break;
-            }
-          }
-          Help.sendMsg("PgHome", 222, item);
+          item.text = event['extras']['Title'];
+          item.mModelMenuConfig = ModelMenuConfig.fromJson(json.decode(
+              Help.getRightdata(Help.mMap_bd[RefTable], event['extras'])));
+          if (item.mModelMenuConfig != null) Help.sendMsg("PgHome", 222, item);
         }
       }, onReceiveMessage: (Map<String, dynamic> event) {
         print('addReceiveMsg>>>>>$event'); //无效的
@@ -410,7 +405,7 @@ class Help {
       RegExp mRegExp = new RegExp("/Date\\((.*)\\)/");
       Iterable<Match> mmRegExps = mRegExp.allMatches(date);
       for (Match m in mmRegExps) {
-        DateTime d = DateTime.fromMicrosecondsSinceEpoch(
+        DateTime d = DateTime.fromMillisecondsSinceEpoch(
             int.parse(m.group(1).toString()));
         print("${d.year}-${d.month}-${d.day}");
         return "${d.year}-${d.month < 10 ? '0' + d.month.toString() : d.month}-${d.day < 10 ? '0' + d.day.toString() : d.day}";

@@ -7,6 +7,7 @@ import 'package:flutter_luban/flutter_luban.dart';
 import 'package:flutter_std/Help.dart';
 import 'package:flutter_std/utils/BaseState.dart';
 import 'package:flutter_std/utils/GSYStyle.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -109,16 +110,29 @@ class TakePhotoState extends BaseState<TakePhoto> {
 
 /*拍照*/
   _takePhoto() async {
+    finish();
     File imageFile = await ImagePicker.pickImage(
         source: ImageSource.camera, maxWidth: 600, maxHeight: 800);
-    _size2Small(imageFile);
+    _cropImage(imageFile);
   }
 
   /*相册*/
   _openGallery() async {
+    finish();
     File imageFile = await ImagePicker.pickImage(
         source: ImageSource.gallery, maxWidth: 600, maxHeight: 800);
-    _size2Small(imageFile);
+    _cropImage(imageFile);
+  }
+
+  Future<Null> _cropImage(File imageFile) async {
+    File croppedFile = await ImageCropper.cropImage(
+      sourcePath: imageFile.path,
+//      ratioX: 1.0,
+//      ratioY: 1.0,
+      maxWidth: 512,
+      maxHeight: 512,
+    );
+    widget.mMethodCallBack(croppedFile);
   }
 
   _size2Small(imageFile) async {

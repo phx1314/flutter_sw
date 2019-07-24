@@ -2,18 +2,41 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_std/pages/PgMain.dart';
+import 'package:jpush_flutter/jpush_flutter.dart';
+
+import 'Help.dart';
 
 void main() {
-
-//  Overlay
-//  await AMap.init('71921fa552a5119c74d39fc297f1d2c4');
-//  setDesignWHD(750, 1334);
-//  ScreenUtil.getInstance();
-//  AMap.init('71921fa552a5119c74d39fc297f1d2c4').then((v) {
-  // 强制竖屏
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  runApp(new PgMain());
-
-//  });
+  JPush jPush = new JPush();
+  Help.addEventHandler(JPush());
+  jPush.applyPushAuthority(
+      new NotificationSettingsIOS(sound: true, alert: true, badge: true));
+  jPush.setup(
+      appKey: "d5de47499dbd50db644a2431",
+      channel: "developer-default",
+      debug: true,
+      production: true);
+  Help.init().then((res) async {
+    if (Help.ISFIRST == null) {
+      runApp(new PgMain(0));
+    } else {
+      if (res != null) {
+        jPush
+            .setAlias(JPush_Alias_BeginWith +
+                Help.mModelUser.UserInfo.EmpID.toString())
+            .then((v) {
+          print(v.toString());
+          List<String> tags = List<String>();
+          tags.add(JPush_Alias_BeginWith);
+          jPush.setTags(tags).then((v) {
+            runApp(new PgMain(2));
+          });
+        });
+      } else {
+        runApp(new PgMain(1));
+      }
+    }
+  });
 }

@@ -6,6 +6,7 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_std/Help.dart';
 import 'package:flutter_std/item/ItemFile.dart';
+import 'package:flutter_std/model/ModelFileNum.dart';
 import 'package:flutter_std/model/ModelFjList.dart';
 import 'package:flutter_std/utils/BaseState.dart';
 import 'package:flutter_std/utils/TakePhoto.dart';
@@ -139,7 +140,6 @@ class PgFileListEditState extends BaseState<PgFileListEdit> {
     });
   }
 
-
   @override
   void onSuccess(String methodName, res) async {
     if (methodName == METHOD_UPLOAD) {
@@ -157,13 +157,21 @@ class PgFileListEditState extends BaseState<PgFileListEdit> {
           mModelWenjianUpload.UploadDate = Help.getCurrentTime(type: 1);
       int length = await file.length();
       mModelWenjianUpload.Size = length;
+      mModelWenjianUpload.RefTable = widget.refTable;
       widget.mModelWenjianUploads.add(mModelWenjianUpload);
       reFreashData();
       reLoad();
       Help.Toast(context, "文件上传成功");
+      Help.sendMsg(
+          widget.form,
+          0,
+          jsonEncode(ModelFileNum(
+              refTable: widget.refTable,
+              fileNumber: widget.mModelWenjianUploads.length)));
     } else if (methodName == METHOD_DELETE) {
       Help.Toast(context, '删除成功');
       Help.sendMsg(widget.form, 103, '');
+      Help.sendMsg(widget.form, 0, widget.mModelWenjianUploads.length);
     }
   }
 
