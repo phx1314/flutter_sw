@@ -227,6 +227,10 @@ class PgHtskState extends BaseState<PgHtsk> {
     flutterWebViewPlugin.onStateChanged.listen((state) {
       if (state.type == WebViewState.finishLoad) {
         flutterWebViewPlugin?.show();
+        if(defaultTargetPlatform ==TargetPlatform.iOS){
+          isCurrentUrl = state.url == widget.url;
+          reLoad();
+        }
       } else if (state.type == WebViewState.startLoad) {
         flutterWebViewPlugin?.hide();
       }

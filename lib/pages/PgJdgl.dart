@@ -190,6 +190,7 @@ class PgJdglState extends BaseState<PgJdgl> {
       Navigator.pop(context);
     });
     flutterWebViewPlugin.onUrlChanged.listen((url) {
+      print(url);
       isCurrentUrl = url ==
           '${Help.BASEURL}/Bussiness/BussProjectmobile/progresslist?a=${Uri.encodeComponent(Help.mModelUser.name)}&p=${md5.convert(utf8.encode(Help.mModelUser.password)).toString()}';
       isShowSave = url.startsWith(
@@ -199,6 +200,14 @@ class PgJdglState extends BaseState<PgJdgl> {
     flutterWebViewPlugin.onStateChanged.listen((state) {
       if (state.type == WebViewState.finishLoad) {
         flutterWebViewPlugin?.show();
+        if(defaultTargetPlatform ==TargetPlatform.iOS){
+          isCurrentUrl = state.url ==
+              '${Help.BASEURL}/Bussiness/BussProjectmobile/progresslist?a=${Uri.encodeComponent(Help.mModelUser.name)}&p=${md5.convert(utf8.encode(Help.mModelUser.password)).toString()}';
+          isShowSave = state.url.startsWith(
+              '${Help.BASEURL}/bussiness/BussProjectmobile/Setting?Id=');
+          reLoad();
+        }
+
       } else if (state.type == WebViewState.startLoad) {
         flutterWebViewPlugin?.hide();
       }
