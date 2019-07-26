@@ -38,7 +38,7 @@ class ItemXtxxState extends BaseState<ItemXtxx> {
         Help.goWhere(
             context,
             PgWebView(
-                '${Help.BASEURL}/oa/Messagemobile/Display?id=${widget.item.Id.toString()}&a=${Help.mModelUser.name}&p=${md5.convert(utf8.encode(Help.mModelUser.password)).toString()}'));
+                '${Help.BASEURL}/oa/Messagemobile/Display?id=${widget.item.Id.toString()}&a=${Uri.encodeComponent(Help.mModelUser.name)}&p=${md5.convert(utf8.encode(Help.mModelUser.password)).toString()}'));
       },
       child: Slidable(
         actionPane: SlidableDrawerActionPane(),

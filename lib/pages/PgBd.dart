@@ -36,11 +36,7 @@ class PgBdState extends BaseState<PgBd> {
         mPullListView.reLoad();
         break;
       case 888:
-        List list = (json.decode(data.toString()) as List)
-            .map((i) => ModelSearchGk.fromJson(i))
-            .toList();
-        ModelSearchGk mModelSearchGk = list[0];
-        mPullListView.other.addAll({"text": mModelSearchGk.list[0].Value});
+        mPullListView.other.addAll({"queryInfo": data.toString()});
         mPullListView.reLoad();
         break;
     }
@@ -61,7 +57,7 @@ class PgBdState extends BaseState<PgBd> {
         List data = new List();
         mModelFlowList.rows.forEach((f) {
           data.add(ItemFlow(f, listtype));
-          f.text=f.FlowName;
+          f.text = f.FlowName;
           f.mModelMenuConfig = ModelMenuConfig.fromJson(json
               .decode(Help.getRightdata(Help.mMap_bd[reftable], f.toJson())));
         });

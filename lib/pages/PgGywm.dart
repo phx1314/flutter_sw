@@ -42,6 +42,8 @@ class PgGywmState extends BaseState<PgGywm> {
           Help.showAlertDialog(context, '发现新版本，是否更新', () {
             launch(mModelVersion.data.buildShortcutUrl);
           });
+        }else{
+          Help.Toast(context, '已经是最新版本');
         }
       });
     }
@@ -94,8 +96,7 @@ class PgGywmState extends BaseState<PgGywm> {
             ),
             InkWell(
               onTap: () {
-                loadUrl(METHOD_UPDATE, {"_api_key": apikey, "appKey":  defaultTargetPlatform == TargetPlatform.android?appKey:appKeyIos},
-                    isShow: false);
+                loadUrl(METHOD_UPDATE, {"_api_key": apikey, "appKey":  defaultTargetPlatform == TargetPlatform.android?appKey:appKeyIos} );
               },
               child: Container(
                 height: ScreenUtil.getScaleH(context, 45),

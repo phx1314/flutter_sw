@@ -69,7 +69,9 @@ class PgPubViewState extends BaseState<PgPubView> {
           mRefTables.forEach((reftable) {
             uploadFile += "&lt;Files RefTable=\"$reftable\"&gt;";
             mModelWenjianUploads.forEach((mRowsBean) {
-              if (mRowsBean.RefTable == reftable&&mRowsBean.IDD!=null&&mRowsBean.IDD!='') {
+              if (mRowsBean.RefTable == reftable &&
+                  mRowsBean.IDD != null &&
+                  mRowsBean.IDD != '') {
                 uploadFile +=
                     "&lt;File FileName=\"${mRowsBean.Name}\" LastModifiedTime=\"${Help.getCurrentTime(type: 1)}\"&gt;${mRowsBean.IDD}&lt;/File&gt;";
               }
@@ -204,9 +206,7 @@ class PgPubViewState extends BaseState<PgPubView> {
                     ? 0
                     : ScreenUtil.getScaleW(
                         context,
-                        defaultTargetPlatform == TargetPlatform.android
-                            ? 50
-                            : 80))));
+                        50+  MediaQuery.of(context).padding.bottom))));
       }
 
       mModelJDInfo.AllowEditControls = widget.statusID == '0'
@@ -250,11 +250,11 @@ class PgPubViewState extends BaseState<PgPubView> {
       mModelWenjianUploads.addAll(mModelFjList.rows);
       goDie();
     } else {
-      Fluttertoast.showToast(msg: ":处理成功");
+      Fluttertoast.showToast(msg: "处理成功");
       Help.sendMsg('PgFlowList,PgBd', 0, '');
       Help.sendMsg('PgHome', 6, '');
       Help.sendMsg('PgGjkh', 4, '');
-      Navigator.pop(context);
+      finish();
     }
   }
 
@@ -443,9 +443,11 @@ class PgPubViewState extends BaseState<PgPubView> {
             mRefTables.forEach((reftable) {
               uploadFile += "&lt;Files RefTable=\"" + reftable + "\"&gt;";
               mModelWenjianUploads.forEach((mRowsBean) {
-                if (mRowsBean.RefTable == reftable&&mRowsBean.IDD!=null&&mRowsBean.IDD!='') {
+                if (mRowsBean.RefTable == reftable &&
+                    mRowsBean.IDD != null &&
+                    mRowsBean.IDD != '') {
                   uploadFile +=
-                  "&lt;File FileName=\"${mRowsBean.Name}\" LastModifiedTime=\"${Help.getCurrentTime(type: 1)}\"&gt;${mRowsBean.IDD}&lt;/File&gt;";
+                      "&lt;File FileName=\"${mRowsBean.Name}\" LastModifiedTime=\"${Help.getCurrentTime(type: 1)}\"&gt;${mRowsBean.IDD}&lt;/File&gt;";
                 }
               });
               uploadFile += "&lt;/Files&gt;";
@@ -467,9 +469,11 @@ class PgPubViewState extends BaseState<PgPubView> {
             mRefTables.forEach((reftable) {
               uploadFile += "&lt;Files RefTable=\"" + reftable + "\"&gt;";
               mModelWenjianUploads.forEach((mRowsBean) {
-                if (mRowsBean.RefTable == reftable&&mRowsBean.IDD!=null&&mRowsBean.IDD!='') {
+                if (mRowsBean.RefTable == reftable &&
+                    mRowsBean.IDD != null &&
+                    mRowsBean.IDD != '') {
                   uploadFile +=
-                  "&lt;File FileName=\"${mRowsBean.Name}\" LastModifiedTime=\"${Help.getCurrentTime(type: 1)}\"&gt;${mRowsBean.IDD}&lt;/File&gt;";
+                      "&lt;File FileName=\"${mRowsBean.Name}\" LastModifiedTime=\"${Help.getCurrentTime(type: 1)}\"&gt;${mRowsBean.IDD}&lt;/File&gt;";
                 }
               });
               uploadFile += "&lt;/Files&gt;";
@@ -482,8 +486,14 @@ class PgPubViewState extends BaseState<PgPubView> {
         } else {
           FocusScope.of(context).requestFocus(FocusNode());
           flutterWebViewPlugin?.hide();
-          Help.showMyDialog(context,
-                  ItemDialogSub(widget.toString(), title, widget.item, false))
+          Help.showMyDialog(
+                  context,
+                  ItemDialogSub(
+                      widget.toString(),
+                      title,
+                      widget.item,
+                      widget.item.action == 'load_reject' ||
+                          widget.item.action == 'load_finish'))
               .then((v) {
             flutterWebViewPlugin?.show();
           });
@@ -558,9 +568,7 @@ class PgPubViewState extends BaseState<PgPubView> {
               MediaQuery.of(context).size.height -
                   (ScreenUtil.getScaleW(
                       context,
-                      defaultTargetPlatform == TargetPlatform.android
-                          ? 50
-                          : 80))));
+                      50+  MediaQuery.of(context).padding.bottom))));
           return;
         }
         if (null != widget.item.mModelMenuConfig.flow.processor &&
@@ -585,10 +593,7 @@ class PgPubViewState extends BaseState<PgPubView> {
               MediaQuery.of(context).size.width,
               MediaQuery.of(context).size.height -
                   (ScreenUtil.getScaleW(
-                      context,
-                      defaultTargetPlatform == TargetPlatform.android
-                          ? 50
-                          : 80))));
+                      context, 50 + MediaQuery.of(context).padding.bottom))));
         }
       } else if (state.type == WebViewState.startLoad) {
         flutterWebViewPlugin?.hide();

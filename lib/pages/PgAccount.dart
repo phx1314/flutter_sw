@@ -96,7 +96,7 @@ class PgAccountState extends BaseState<PgAccount> {
                     style: Style.text_style_16_black,
                   )),
                   Switch(
-                    value: Help.mModelUser.UserInfo.isLock,
+                    value: Help.mModelUser.UserInfo.isLock??false,
                     onChanged: (bool val) async{
                       Help.mModelUser.UserInfo.isLock=val;
                       await Help.save("mModelUser", json.encode(Help.mModelUser.toJson()));

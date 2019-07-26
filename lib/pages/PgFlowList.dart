@@ -68,12 +68,14 @@ class PgFlowListState extends BaseState<PgFlowList> {
 
         break;
       case 888:
-        Map<String, dynamic> map = {"queryInfo": data.toString()};
-        Map<String, dynamic> dd =
-            widget.item.mModelMenuConfig.grid.queryParams[0];
-        dd.remove("queryInfo");
-        map.addAll(dd);
-        mPullListView.other = map;
+//        Map<String, dynamic> map = {"queryInfo": data.toString()};
+//        Map<String, dynamic> dd =
+//            widget.item.mModelMenuConfig.grid.queryParams[0];
+//        dd.remove("queryInfo");
+//        map.addAll(dd);
+//        mPullListView.other = map;
+//        mPullListView.reLoad();
+        mPullListView.other.addAll({"queryInfo": data.toString()});
         mPullListView.reLoad();
         break;
       case 889:
@@ -374,9 +376,11 @@ class PgFlowListState extends BaseState<PgFlowList> {
                 ],
               ),
             ),
-            floatingActionButton: widget.item.mModelMenuConfig.grid.addUrl !=
-                        null &&
-                    widget.item.mModelMenuConfig.grid.addUrl.length > 0
+            floatingActionButton:  widget.item.mModelMenuConfig.grid.addUrl !=
+                            null &&
+                        widget.item.mModelMenuConfig.grid.addUrl.length > 0  &&
+                    widget.item.MenuNameEng != "CluePoolInfo" &&
+                        widget.item.MenuNameEng != "BussinessCustomerPool"
                 ? FloatingActionButton(
                     onPressed: () {
                       if (widget.item.MenuNameEng == "contract_feerecv" ||

@@ -162,16 +162,27 @@ class PgFileListEditState extends BaseState<PgFileListEdit> {
       reFreashData();
       reLoad();
       Help.Toast(context, "文件上传成功");
+      int fileNumber = 0;
+      widget.mModelWenjianUploads.forEach((mRowsBean) {
+        if (mRowsBean.RefTable == widget.refTable) {
+          fileNumber++;
+        }
+      });
       Help.sendMsg(
           widget.form,
           0,
-          jsonEncode(ModelFileNum(
-              refTable: widget.refTable,
-              fileNumber: widget.mModelWenjianUploads.length)));
+          jsonEncode(
+              ModelFileNum(refTable: widget.refTable, fileNumber: fileNumber)));
     } else if (methodName == METHOD_DELETE) {
       Help.Toast(context, '删除成功');
-      Help.sendMsg(widget.form, 103, '');
-      Help.sendMsg(widget.form, 0, widget.mModelWenjianUploads.length);
+      int fileNumber = 0;
+      widget.mModelWenjianUploads.forEach((mRowsBean) {
+        if (mRowsBean.RefTable == widget.refTable) {
+          fileNumber++;
+        }
+      });
+      Help.sendMsg(widget.form, 0,  jsonEncode(
+          ModelFileNum(refTable: widget.refTable, fileNumber: fileNumber)));
     }
   }
 

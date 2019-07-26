@@ -24,6 +24,15 @@ class RowsListBean {
   var ProjName;
 
   var Id;
+
+  var ProjId;
+  var CustName;
+  var DatePlanFinish;
+  var LinkMan;
+  var LinkManTel;
+  var ProjScaleName;
+  var ContractInfo;
+
   var ProjNumber;
   var ProjMarketName;
   String FlowSummary;
@@ -43,14 +52,30 @@ class RowsListBean {
     this.Id = json['Id'];
     this.ProjNumber = json['ProjNumber'];
     this.ProjMarketName = json['ProjMarketName'];
+
+    this.ProjId = json['ProjId']??'';
+    this.CustName = json['CustName']??'';
+    this.DatePlanFinish = json['DatePlanFinish']??'';
+    this.LinkMan = json['LinkMan']??'';
+    this.LinkManTel = json['LinkManTel']??'';
+    this.ProjScaleName = json['ProjScaleName']??'';
+    this.ContractInfo = json['ContractInfo']??'';
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ProjName'] = this.ProjName;
-    data['Id'] = this.Id;
-    data['ProjNumber'] = this.ProjNumber;
-    data['ProjMarketName'] = this.ProjMarketName;
+    data['ProjName'] = this.ProjName??'';
+    data['Id'] = this.Id??'';
+    data['ProjNumber'] = this.ProjNumber??'';
+    data['ProjMarketName'] = this.ProjMarketName??'';
+
+    data['ProjId'] = this.ProjId??'';
+    data['CustName'] = this.CustName??'';
+    data['DatePlanFinish'] = this.DatePlanFinish??'';
+    data['LinkMan'] = this.LinkMan??'';
+    data['LinkManTel'] = this.LinkManTel??'';
+    data['ProjScaleName'] = this.ProjScaleName??'';
+//    data['ContractInfo'] = this.ContractInfo??'';
     return data;
   }
 }

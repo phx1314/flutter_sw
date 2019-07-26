@@ -136,13 +136,6 @@ class ItemGzjdState extends BaseState<ItemGzjd> {
                         style: Style.text_style_13_gray,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        '联系方式：',
-                        style: Style.text_style_13_gray,
-                      ),
-                    )
                   ],
                 ),
               ),

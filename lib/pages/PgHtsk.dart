@@ -38,6 +38,7 @@ class PgHtskState extends BaseState<PgHtsk> {
   ModelUploadFile mModelUpload;
   List<String> mRefTables = List();
   List<DataBean> mModelWenjianUploads = new List();
+  String saveData = '';
 
   @override
   void disMsg(int what, data) {
@@ -55,9 +56,8 @@ class PgHtskState extends BaseState<PgHtsk> {
               MediaQuery.of(context).size.width,
               data
                   ? MediaQuery.of(context).size.height -
-                      ScreenUtil.getScaleW(context, 270)
-                  : MediaQuery.of(context).size.height -
-                      ScreenUtil.getScaleW(context, 50)));
+                      ScreenUtil.getScaleW(context, 220)
+                  : MediaQuery.of(context).size.height));
         break;
     }
   }
@@ -116,18 +116,15 @@ class PgHtskState extends BaseState<PgHtsk> {
             },
           ),
           actions: <Widget>[
-            Visibility(
-              visible: isCurrentUrl,
-              child: InkWell(
-                onTap: () {
-                  flutterWebViewPlugin.evalJavascript("validateFormBegin()");
-                },
-                child: Container(
-                  padding: EdgeInsets.all(10),
-                  alignment: Alignment.center,
-                  child: Text(
-                    '保存',
-                  ),
+            InkWell(
+              onTap: () {
+                flutterWebViewPlugin.evalJavascript("validateFormBegin()");
+              },
+              child: Container(
+                padding: EdgeInsets.all(10),
+                alignment: Alignment.center,
+                child: Text(
+                  '保存',
                 ),
               ),
             )
@@ -167,6 +164,11 @@ class PgHtskState extends BaseState<PgHtsk> {
   void go2Where(String type) {
     try {
       if (type == '001') {
+        if (!isCurrentUrl) {
+          saveData = json.encode(map_json);
+          flutterWebViewPlugin.goBack();
+          return;
+        }
         if (mModelWenjianUploads.length > 0) {
           String uploadFile = "&lt;Root&gt;";
           mRefTables.forEach((reftable) {
@@ -222,7 +224,16 @@ class PgHtskState extends BaseState<PgHtsk> {
     });
     flutterWebViewPlugin.onUrlChanged.listen((url) {
       isCurrentUrl = url == widget.url;
-      reLoad();
+      if (isCurrentUrl && saveData != '') {
+        Map<String, dynamic> map = json.decode(saveData);
+        if (map['Id'] != '0') {
+          flutterWebViewPlugin.evalJavascript("editEnd('$saveData')");
+        } else {
+          flutterWebViewPlugin.evalJavascript("addEnd('$saveData')");
+        }
+
+        saveData = '';
+      }
     });
     flutterWebViewPlugin.onStateChanged.listen((state) {
       if (state.type == WebViewState.finishLoad) {
