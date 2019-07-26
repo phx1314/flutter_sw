@@ -29,7 +29,6 @@ class PgJdglState extends BaseState<PgJdgl> {
   Map<String, dynamic> map_json;
   bool isCurrentUrl = true;
   ModelUploadFile mModelUpload;
-  List<String> mRefTables = List();
   List<DataBean> mModelWenjianUploads = new List();
   bool isShowSave = false;
   int id;
@@ -125,6 +124,7 @@ class PgJdglState extends BaseState<PgJdgl> {
   @override
   onSuccess(String methodName, res) {
     if (methodName == METHOD_GETATTACHFILES) {
+      mModelWenjianUploads.clear();
       ModelFjList mModelFjList = ModelFjList.fromJson(json.decode(res.json));
       mModelFjList.rows.forEach((f) {
         f.RefTable = mModelUpload.RefTable;
@@ -156,16 +156,8 @@ class PgJdglState extends BaseState<PgJdgl> {
             PgFileList(map_json['RefID'].toString(), map_json['RefTable']));
       } else if (type == '006') {
         mModelUpload = ModelUploadFile.fromJson(map_json);
-        if (!mRefTables.contains(mModelUpload.RefTable)) {
-          loadUrl(METHOD_GETATTACHFILES,
-              {"refID": id, "refTable": mModelUpload.RefTable});
-        } else {
-          goDie();
-        }
-
-        if (!mRefTables.contains(mModelUpload.RefTable)) {
-          mRefTables.add(mModelUpload.RefTable);
-        }
+        loadUrl(METHOD_GETATTACHFILES,
+            {"refID": id, "refTable": mModelUpload.RefTable});
       }
     } catch (e) {
       print(e.toString());
@@ -200,14 +192,13 @@ class PgJdglState extends BaseState<PgJdgl> {
     flutterWebViewPlugin.onStateChanged.listen((state) {
       if (state.type == WebViewState.finishLoad) {
         flutterWebViewPlugin?.show();
-        if(defaultTargetPlatform ==TargetPlatform.iOS){
+        if (defaultTargetPlatform == TargetPlatform.iOS) {
           isCurrentUrl = state.url ==
               '${Help.BASEURL}/Bussiness/BussProjectmobile/progresslist?a=${Uri.encodeComponent(Help.mModelUser.name)}&p=${md5.convert(utf8.encode(Help.mModelUser.password)).toString()}';
           isShowSave = state.url.startsWith(
               '${Help.BASEURL}/bussiness/BussProjectmobile/Setting?Id=');
           reLoad();
         }
-
       } else if (state.type == WebViewState.startLoad) {
         flutterWebViewPlugin?.hide();
       }
