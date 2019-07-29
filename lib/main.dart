@@ -23,17 +23,7 @@ void main() {
       runApp(new PgMain(0));
     } else {
       if (res != null) {
-        jPush
-            .setAlias(JPush_Alias_BeginWith +
-                Help.mModelUser.UserInfo.EmpID.toString())
-            .then((v) {
-          print(v.toString());
-          List<String> tags = List<String>();
-          tags.add(JPush_Alias_BeginWith);
-          jPush.setTags(tags).then((v) {
-            runApp(new PgMain(2));
-          });
-        });
+        runApp(new PgMain(2));
       } else {
         runApp(new PgMain(1));
       }

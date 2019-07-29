@@ -19,6 +19,7 @@ import 'package:flutter_std/pages/PgWork.dart';
 import 'package:flutter_std/pages/PgXx.dart';
 import 'package:flutter_std/utils/BaseState.dart';
 import 'package:flutter_std/utils/GSYStyle.dart';
+import 'package:jpush_flutter/jpush_flutter.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -97,6 +98,12 @@ class PgHomeState extends BaseState<PgHome> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    JPush mJPush = JPush();
+    mJPush.setAlias(
+        JPush_Alias_BeginWith + Help.mModelUser.UserInfo.EmpID.toString());
+    List<String> tags = List<String>();
+    tags.add(JPush_Alias_BeginWith);
+    mJPush.setTags(tags);
     loadUrl(METHOD_GETMENUMOBILECONFIG + 'ProjCirculation', null,
         isShow: false, biaoshi: 'BussProjCirculation');
     loadUrl(METHOD_GetAmount, {"app": "1"}, isShow: false);
@@ -126,7 +133,8 @@ class PgHomeState extends BaseState<PgHome> with WidgetsBindingObserver {
         break;
       case AppLifecycleState.resumed: // 应用程序可见，前台
         print("前台");
-        if (Help.mModelUser.UserInfo.isLock!=null&&Help.mModelUser.UserInfo.isLock) {
+        if (Help.mModelUser.UserInfo.isLock != null &&
+            Help.mModelUser.UserInfo.isLock) {
           Help.goWhere(context, PageDialogLock());
         }
         break;
