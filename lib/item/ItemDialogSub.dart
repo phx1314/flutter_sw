@@ -361,13 +361,24 @@ class ItemDialogSubState extends BaseState<ItemDialogSub> {
     } else {
       isHq = false;
       data_ry.clear();
+
       if (mNextStepsListBean.Users != null &&
           mNextStepsListBean.Users.length > 0) {
         data_ry.addAll(mNextStepsListBean.Users);
       } else {
         data_ry.add("无可选择人员");
       }
-      s_ry = data_ry[0];
+      int position = 0;
+      if (mNextStepsListBean.DefaultChoosedUser != null) {
+        for (int i = 0; i < data_ry.length; i++) {
+          if (mNextStepsListBean.DefaultChoosedUser == data_ry[i].ID) {
+            position = i;
+            break;
+          }
+        }
+      }
+
+      s_ry = data_ry[position];
     }
   }
 }
