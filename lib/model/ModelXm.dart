@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class ModelXm {
   int total;
   List<RowsListBean> rows;
@@ -31,7 +33,7 @@ class RowsListBean {
   var LinkMan;
   var LinkManTel;
   var ProjScaleName;
-  var ContractInfo;
+  String ContractInfo;
 
   var ProjNumber;
   var ProjMarketName;
@@ -53,29 +55,34 @@ class RowsListBean {
     this.ProjNumber = json['ProjNumber'];
     this.ProjMarketName = json['ProjMarketName'];
 
-    this.ProjId = json['ProjId']??'';
-    this.CustName = json['CustName']??'';
-    this.DatePlanFinish = json['DatePlanFinish']??'';
-    this.LinkMan = json['LinkMan']??'';
-    this.LinkManTel = json['LinkManTel']??'';
-    this.ProjScaleName = json['ProjScaleName']??'';
-    this.ContractInfo = json['ContractInfo']??'';
+    this.ProjId = json['ProjId'] ?? '';
+    this.CustName = json['CustName'] ?? '';
+    this.DatePlanFinish = json['DatePlanFinish'] ?? '';
+    this.LinkMan = json['LinkMan'] ?? '';
+    this.LinkManTel = json['LinkManTel'] ?? '';
+    this.ProjScaleName = json['ProjScaleName'] ?? '';
+    this.ContractInfo = json['ContractInfo'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ProjName'] = this.ProjName??'';
-    data['Id'] = this.Id??'';
-    data['ProjNumber'] = this.ProjNumber??'';
-    data['ProjMarketName'] = this.ProjMarketName??'';
+    data['ProjName'] = this.ProjName ?? '';
+    data['Id'] = this.Id ?? '';
+    data['ProjNumber'] = this.ProjNumber ?? '';
+    data['ProjMarketName'] = this.ProjMarketName ?? '';
 
-    data['ProjId'] = this.ProjId??'';
-    data['CustName'] = this.CustName??'';
-    data['DatePlanFinish'] = this.DatePlanFinish??'';
-    data['LinkMan'] = this.LinkMan??'';
-    data['LinkManTel'] = this.LinkManTel??'';
-    data['ProjScaleName'] = this.ProjScaleName??'';
-//    data['ContractInfo'] = this.ContractInfo??'';
+    data['ProjId'] = this.ProjId ?? '';
+    data['CustName'] = this.CustName ?? '';
+    data['DatePlanFinish'] = this.DatePlanFinish ?? '';
+    data['LinkMan'] = this.LinkMan ?? '';
+    data['LinkManTel'] = this.LinkManTel ?? '';
+    data['ProjScaleName'] = this.ProjScaleName ?? '';
+    try {
+      data['ContractInfo'] =json.decode('[${ContractInfo.substring(0, ContractInfo.length - 1)}]');
+    } catch (e) {
+      data['ContractInfo'] = '';
+    }
+
     return data;
   }
 }
