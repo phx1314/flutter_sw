@@ -39,6 +39,7 @@ class PgHtskState extends BaseState<PgHtsk> {
   List<String> mRefTables = List();
   List<DataBean> mModelWenjianUploads = new List();
   String saveData = '';
+  bool isDivShow = false;
 
   @override
   void disMsg(int what, data) {
@@ -116,15 +117,18 @@ class PgHtskState extends BaseState<PgHtsk> {
             },
           ),
           actions: <Widget>[
-            InkWell(
-              onTap: () {
-                flutterWebViewPlugin.evalJavascript("validateFormBegin()");
-              },
-              child: Container(
-                padding: EdgeInsets.all(10),
-                alignment: Alignment.center,
-                child: Text(
-                  '保存',
+            Visibility(
+              visible: !isDivShow,
+              child: InkWell(
+                onTap: () {
+                  flutterWebViewPlugin.evalJavascript("validateFormBegin()");
+                },
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  alignment: Alignment.center,
+                  child: Text(
+                    '保存',
+                  ),
                 ),
               ),
             )
@@ -187,7 +191,12 @@ class PgHtskState extends BaseState<PgHtsk> {
           map_json["\$uplohad\$_cache_y12\$t1m"] = uploadFile;
         }
         loadUrl(widget.saveUrl, map_json);
-      } else if (type == '007') {
+      } else if (type == '010') {
+        isDivShow = true;
+        reLoad();
+      } else if (type == '011') {
+        isDivShow = false;
+        reLoad();
       } else if (type == '006') {
         mModelUpload = ModelUploadFile.fromJson(map_json);
         if (!mRefTables.contains(mModelUpload.RefTable)) {
