@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_luban/flutter_luban.dart';
 import 'package:flutter_std/Help.dart';
 import 'package:flutter_std/utils/BaseState.dart';
@@ -34,8 +36,8 @@ class TakePhotoState extends BaseState<TakePhoto> {
             children: <Widget>[
               Expanded(
                   child: InkWell(
-                onTap: () => finish(),
-              )),
+                    onTap: () => finish(),
+                  )),
               Container(
                 color: Colors.white,
                 child: Column(
@@ -83,7 +85,7 @@ class TakePhotoState extends BaseState<TakePhoto> {
                         onTap: () => finish(),
                         child: Container(
                           padding:
-                              EdgeInsets.all(ScreenUtil.getScaleW(context, 15)),
+                          EdgeInsets.all(ScreenUtil.getScaleW(context, 15)),
                           width: double.infinity,
                           child: Text(
                             '取消',
@@ -113,6 +115,7 @@ class TakePhotoState extends BaseState<TakePhoto> {
     finish();
     File imageFile = await ImagePicker.pickImage(
         source: ImageSource.camera, maxWidth: 600, maxHeight: 800);
+//    _size2Small(imageFile);
     _cropImage(imageFile);
   }
 
@@ -121,17 +124,27 @@ class TakePhotoState extends BaseState<TakePhoto> {
     finish();
     File imageFile = await ImagePicker.pickImage(
         source: ImageSource.gallery, maxWidth: 600, maxHeight: 800);
+//    _size2Small(imageFile);
     _cropImage(imageFile);
   }
 
   Future<Null> _cropImage(File imageFile) async {
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      await FlutterImageCompress.compressAndGetFile(
+        imageFile.absolute.path,
+        imageFile.absolute.path,
+        quality: 88,
+        rotate: -90,
+      );
+    }
     File croppedFile = await ImageCropper.cropImage(
       sourcePath: imageFile.path,
-//      ratioX: 1.0,
-//      ratioY: 1.0,
+      ratioX: 1.0,
+      ratioY: 1.0,
       maxWidth: 512,
       maxHeight: 512,
     );
+
     widget.mMethodCallBack(croppedFile);
   }
 
