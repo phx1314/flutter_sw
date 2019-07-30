@@ -105,13 +105,13 @@ class PgWodeState extends BaseState<PgWode> {
                 ],
               ),
             ),
-            CircleAvatar(
-              radius: ScreenUtil.getScaleW(context, 27),
-              backgroundColor: Colors.transparent,
-              backgroundImage: CachedNetworkImageProvider(
-                  Help.ImageUrl + ( Help.mModelUser?.UserInfo?.EmpHead!=null&&Help.mModelUser?.UserInfo?.EmpHead!=''?Help.mModelUser?.UserInfo?.EmpHead: '0'),
-                  cacheManager: Help.mImageCacheManager),
-            ),
+//            CircleAvatar(
+//              radius: ScreenUtil.getScaleW(context, 27),
+//              backgroundColor: Colors.transparent,
+//              backgroundImage: CachedNetworkImageProvider(
+//                  Help.ImageUrl + ( Help.mModelUser?.UserInfo?.EmpHead!=null&&Help.mModelUser?.UserInfo?.EmpHead!=''?Help.mModelUser?.UserInfo?.EmpHead: '0'),
+//                  cacheManager: Help.mImageCacheManager),
+//            ),
           ],
         ),
       ),
@@ -168,9 +168,7 @@ class PgWodeState extends BaseState<PgWode> {
               onTap: () {
                 Help.goWhere(context, PgSet());
               },
-              leading: Image.asset('static/images/shezhi.png',
-                  width: ScreenUtil.getScaleW(context, 22),
-                  height: ScreenUtil.getScaleW(context, 22)),
+              leading: Icon(Icons.settings, color: Colors.blue),
               title: const Text('设置'),
               trailing: Icon(Icons.chevron_right, color: Colors.grey),
             ),
