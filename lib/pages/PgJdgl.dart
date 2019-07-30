@@ -42,7 +42,20 @@ class PgJdglState extends BaseState<PgJdgl> {
         break;
     }
   }
-
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (TargetPlatform.iOS == defaultTargetPlatform)
+      Future.delayed(Duration(seconds: 1), () {
+        if (ModalRoute.of(context).isCurrent) {
+          flutterWebViewPlugin?.show();
+          print("显示a" + ModalRoute.of(context).toString());
+        } else {
+          flutterWebViewPlugin?.hide();
+          print("隐藏a" + ModalRoute.of(context).toString());
+        }
+      });
+  }
   @override
   Widget build(BuildContext context) {
     if (ModalRoute.of(context).isCurrent) {
