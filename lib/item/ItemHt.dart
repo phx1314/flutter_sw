@@ -21,7 +21,10 @@ class ItemHtState extends BaseState<ItemHt> {
   List<Widget> mWidgets = List();
 
   @override
-  void loadData() {
+  void loadData() {}
+
+  @override
+  Widget build(BuildContext context) {
     try {
       mWidgets.clear();
       List responseJson = json.decode(widget.item.FlowSummary);
@@ -38,10 +41,6 @@ class ItemHtState extends BaseState<ItemHt> {
     } catch (e) {
       print(e);
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         Help.sendMsg("PgPubView", 0, json.encode(widget.item.toJson()));

@@ -182,9 +182,9 @@ class PgHtskState extends BaseState<PgHtsk> {
               }
             });
             uploadFile += "&lt;/Files&gt;";
-            uploadFile += "&lt;/Root&gt;";
-            map_json["\$uplohad\$_cache_y12\$t1m"] = uploadFile;
           });
+          uploadFile += "&lt;/Root&gt;";
+          map_json["\$uplohad\$_cache_y12\$t1m"] = uploadFile;
         }
         loadUrl(widget.saveUrl, map_json);
       } else if (type == '007') {
@@ -238,7 +238,7 @@ class PgHtskState extends BaseState<PgHtsk> {
     flutterWebViewPlugin.onStateChanged.listen((state) {
       if (state.type == WebViewState.finishLoad) {
         flutterWebViewPlugin?.show();
-        if(defaultTargetPlatform ==TargetPlatform.iOS){
+        if (defaultTargetPlatform == TargetPlatform.iOS) {
           isCurrentUrl = state.url == widget.url;
           reLoad();
         }

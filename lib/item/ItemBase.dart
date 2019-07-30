@@ -24,7 +24,10 @@ class ItemBaseState extends BaseState<ItemBase> {
   List<Widget> mWidgets = List();
 
   @override
-  void loadData() {
+  void loadData() {}
+
+  @override
+  Widget build(BuildContext context) {
     try {
       mWidgets.clear();
       List responseJson = json.decode(widget.item.FlowSummary);
@@ -41,10 +44,6 @@ class ItemBaseState extends BaseState<ItemBase> {
     } catch (e) {
       print(e);
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         if (widget.item.mModelMenuConfig != null) {
@@ -56,7 +55,8 @@ class ItemBaseState extends BaseState<ItemBase> {
               widget.item.MenuNameEng == "contract_invoice") {
             Help.goWhere(
                 context,
-                PgHtsk(widget.item.mModelMenuConfig.grid.saveUrl[0],
+                PgHtsk(
+                    widget.item.mModelMenuConfig.grid.saveUrl[0],
                     widget.item.FormId,
                     "${Help.BASEURL}/${widget.item.mModelMenuConfig.grid.editUrl[0]}&a=${Uri.encodeComponent(Help.mModelUser.name)}&p=${md5.convert(utf8.encode(Help.mModelUser.password)).toString()}",
                     widget.item.MenuNameEng));

@@ -77,9 +77,9 @@ class PgPubViewState extends BaseState<PgPubView> {
               }
             });
             uploadFile += "&lt;/Files&gt;";
-            uploadFile += "&lt;/Root&gt;";
-            map["\$uplohad\$_cache_y12\$t1m"] = uploadFile;
           });
+          uploadFile += "&lt;/Root&gt;";
+          map["\$uplohad\$_cache_y12\$t1m"] = uploadFile;
         }
         map_json.addAll(map);
         loadUrl(METHOD_FLOWWIDGET, map_json);
@@ -205,8 +205,7 @@ class PgPubViewState extends BaseState<PgPubView> {
                 (isFinish
                     ? 0
                     : ScreenUtil.getScaleW(
-                        context,
-                        50+  MediaQuery.of(context).padding.bottom))));
+                        context, 50 + MediaQuery.of(context).padding.bottom))));
       }
 
       mModelJDInfo.AllowEditControls = widget.statusID == '0'
@@ -451,9 +450,9 @@ class PgPubViewState extends BaseState<PgPubView> {
                 }
               });
               uploadFile += "&lt;/Files&gt;";
-              uploadFile += "&lt;/Root&gt;";
-              map_json["\$uplohad\$_cache_y12\$t1m"] = uploadFile;
             });
+            uploadFile += "&lt;/Root&gt;";
+            map_json["\$uplohad\$_cache_y12\$t1m"] = uploadFile;
           }
           loadUrl(widget.item.mModelMenuConfig.grid.saveUrl[0], map_json);
         } else if (title == '暂存') {
@@ -477,9 +476,9 @@ class PgPubViewState extends BaseState<PgPubView> {
                 }
               });
               uploadFile += "&lt;/Files&gt;";
-              uploadFile += "&lt;/Root&gt;";
-              map["\$uplohad\$_cache_y12\$t1m"] = uploadFile;
             });
+            uploadFile += "&lt;/Root&gt;";
+            map["\$uplohad\$_cache_y12\$t1m"] = uploadFile;
           }
           map_json.addAll(map);
           loadUrl(METHOD_FLOWWIDGET, map_json);
@@ -567,8 +566,7 @@ class PgPubViewState extends BaseState<PgPubView> {
               MediaQuery.of(context).size.width,
               MediaQuery.of(context).size.height -
                   (ScreenUtil.getScaleW(
-                      context,
-                      50+  MediaQuery.of(context).padding.bottom))));
+                      context, 50 + MediaQuery.of(context).padding.bottom))));
           return;
         }
         if (null != widget.item.mModelMenuConfig.flow.processor &&
