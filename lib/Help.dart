@@ -127,11 +127,11 @@ const JPush_Alias_BeginWith = "2015001GoldPM9_Default_EmpID_";
 
 //const JPush_Alias_BeginWith = "jqpm_EmpID_";
 class Help {
-  static var URL = "http://192.168.0.7";
-  static var BASEURL = "$URL/GoldPM9_jsczswzb";
+//  static var URL = "http://192.168.0.7";
+//  static var BASEURL = "$URL/GoldPM9_jsczswzb";
 
-//  static var URL = "http://47.94.23.147:8080";
-//  static var BASEURL = "$URL/jqmis4";
+  static var URL = "http://192.168.10.82";
+  static var BASEURL = "$URL/GoldPM9_jsczswzb";
 
   static var ImageUrl = "$BASEURL/core/main/GetHeadUrl?gid=";
   static var IMAGE_STAR = "$BASEURL/GoldFile/";

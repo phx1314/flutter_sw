@@ -336,6 +336,7 @@ class PgFlowListState extends BaseState<PgFlowList> {
                                             ModelMenuConfig.fromJson(
                                                 json.decode(widget
                                                     .item.MenuMobileConfig));
+                                        search = json.encode(widget.item.mModelMenuConfig.search);
                                         isShow = !isShow;
                                         mPullListView.other = widget
                                             .item
