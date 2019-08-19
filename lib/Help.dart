@@ -126,8 +126,8 @@ const METHOD_UPDATE = "https://www.pgyer.com/apiv2/app/check";
 const JPush_Alias_BeginWith = "2015001GoldPM9_Default_EmpID_";
 
 class Help {
-  static var URL = "http://192.168.0.7";
-//  static var URL = "http://192.168.10.82";
+//  static var URL = "http://192.168.0.7";
+  static var URL = "http://192.168.10.82";
   static var BASEURL = "$URL/GoldPM9_jsczswzb";
 
   static var ImageUrl = "$BASEURL/core/main/GetHeadUrl?gid=";
