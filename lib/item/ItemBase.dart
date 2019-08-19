@@ -31,16 +31,48 @@ class ItemBaseState extends BaseState<ItemBase> {
     try {
       mWidgets.clear();
       List responseJson = json.decode(widget.item.FlowSummary);
-      responseJson.forEach((f) {
+      String time = '';
+      for (int i = 0; i < responseJson.length; i++) {
+        if (responseJson[i]['Key'].toString().contains('创建时间')) {
+          time = '${responseJson[i]['Key']}  :  ${responseJson[i]['Value']}';
+          responseJson.removeAt(i);
+          break;
+        }
+      }
+      for (int i = 0; i < responseJson.length; i++) {
         mWidgets.add(Padding(
           padding: EdgeInsets.only(top: 5),
-          child: Text(
-            '${f['Key']}  :  ${f['Value']}',
-            style: Style.text_style_13_black,
+          child: i == responseJson.length - 1
+              ? Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Text(
+                '${responseJson[i]['Key']}  :  ${responseJson[i]['Value']}',
+                style: Style.text_style_13_gray,
+                softWrap: true,
+              ),
+              Expanded(
+                  child: Text(
+                    time,
+                    textAlign: TextAlign.end,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Style.text_style_13_gray,
+                    softWrap: true,
+                  ))
+            ],
+          )
+              : Text(
+            i == 0
+                ? '${responseJson[i]['Value']}'
+                : '${responseJson[i]['Key']}  :  ${responseJson[i]['Value']}',
+            style: i == 0
+                ? Style.text_style_16_black
+                : Style.text_style_13_gray,
             softWrap: true,
           ),
         ));
-      });
+      }
     } catch (e) {
       print(e);
     }
@@ -58,7 +90,10 @@ class ItemBaseState extends BaseState<ItemBase> {
                 PgHtsk(
                     widget.item.mModelMenuConfig.grid.saveUrl[0],
                     widget.item.FormId,
-                    "${Help.BASEURL}/${widget.item.mModelMenuConfig.grid.editUrl[0]}&a=${Uri.encodeComponent(Help.mModelUser.name)}&p=${md5.convert(utf8.encode(Help.mModelUser.password)).toString()}",
+                    "${Help.BASEURL}/${widget.item.mModelMenuConfig.grid
+                        .editUrl[0]}&a=${Uri.encodeComponent(
+                        Help.mModelUser.name)}&p=${md5.convert(
+                        utf8.encode(Help.mModelUser.password)).toString()}",
                     widget.item.MenuNameEng));
           } else {
             Help.go2PubView(context, widget.item, "");
